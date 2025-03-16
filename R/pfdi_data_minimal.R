@@ -6,26 +6,26 @@
 #' @format A data frame with observations on the following variables:
 #' \describe{
 #'   \item{Record_ID}{Unique patient identifier}
-#'   \item{PFDI-1}{Usually experience pressure in the lower abdomen? (0-4 scale)}
-#'   \item{PFDI-2}{Usually experience heaviness or dullness in the pelvic area? (0-4 scale)}
-#'   \item{PFDI-3}{Usually have a bulge or something falling out? (0-4 scale)}
-#'   \item{PFDI-4}{Usually have to push on vagina to have bowel movement? (0-4 scale)}
-#'   \item{PFDI-5}{Usually experience incomplete bladder emptying? (0-4 scale)}
-#'   \item{PFDI-6}{Ever have to push up on a bulge in the vaginal area? (0-4 scale)}
-#'   \item{PFDI-7}{Feel need to strain hard for bowel movement? (0-4 scale)}
-#'   \item{PFDI-8}{Feel incomplete bowel emptying? (0-4 scale)}
-#'   \item{PFDI-9}{Usually lose stool beyond your control? (0-4 scale)}
-#'   \item{PFDI-10}{Usually lose stool beyond control if stool is loose? (0-4 scale)}
-#'   \item{PFDI-11}{Usually lose gas from the rectum beyond control? (0-4 scale)}
-#'   \item{PFDI-12}{Usually have pain when passing stool? (0-4 scale)}
-#'   \item{PFDI-13}{Experience strong urgency for bowel movement? (0-4 scale)}
-#'   \item{PFDI-14}{Does part of your bowel ever pass through the rectum? (0-4 scale)}
-#'   \item{PFDI-15}{Usually experience frequent urination? (0-4 scale)}
-#'   \item{PFDI-16}{Usually experience urine leakage with urgency? (0-4 scale)}
-#'   \item{PFDI-17}{Usually experience urine leakage with coughing/sneezing? (0-4 scale)}
-#'   \item{PFDI-18}{Usually experience small amounts of urine leakage? (0-4 scale)}
-#'   \item{PFDI-19}{Usually experience difficulty emptying bladder? (0-4 scale)}
-#'   \item{PFDI-20}{Usually experience pain or discomfort in lower abdomen? (0-4 scale)}
+#'   \item{PFDI.1}{Usually experience pressure in the lower abdomen? (0-4 scale)}
+#'   \item{PFDI.2}{Usually experience heaviness or dullness in the pelvic area? (0-4 scale)}
+#'   \item{PFDI.3}{Usually have a bulge or something falling out? (0-4 scale)}
+#'   \item{PFDI.4}{Usually have to push on vagina to have bowel movement? (0-4 scale)}
+#'   \item{PFDI.5}{Usually experience incomplete bladder emptying? (0-4 scale)}
+#'   \item{PFDI.6}{Ever have to push up on a bulge in the vaginal area? (0-4 scale)}
+#'   \item{PFDI.7}{Feel need to strain hard for bowel movement? (0-4 scale)}
+#'   \item{PFDI.8}{Feel incomplete bowel emptying? (0-4 scale)}
+#'   \item{PFDI.9}{Usually lose stool beyond your control? (0-4 scale)}
+#'   \item{PFDI.10}{Usually lose stool beyond control if stool is loose? (0-4 scale)}
+#'   \item{PFDI.11}{Usually lose gas from the rectum beyond control? (0-4 scale)}
+#'   \item{PFDI.12}{Usually have pain when passing stool? (0-4 scale)}
+#'   \item{PFDI.13}{Experience strong urgency for bowel movement? (0-4 scale)}
+#'   \item{PFDI.14}{Does part of your bowel ever pass through the rectum? (0-4 scale)}
+#'   \item{PFDI.15}{Usually experience frequent urination? (0-4 scale)}
+#'   \item{PFDI.16}{Usually experience urine leakage with urgency? (0-4 scale)}
+#'   \item{PFDI.17}{Usually experience urine leakage with coughing/sneezing? (0-4 scale)}
+#'   \item{PFDI.18}{Usually experience small amounts of urine leakage? (0-4 scale)}
+#'   \item{PFDI.19}{Usually experience difficulty emptying bladder? (0-4 scale)}
+#'   \item{PFDI.20}{Usually experience pain or discomfort in lower abdomen? (0-4 scale)}
 #'   \item{Age}{Patient age in years}
 #'   \item{BMI}{Body Mass Index}
 #' }

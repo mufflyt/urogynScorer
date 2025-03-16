@@ -37,12 +37,11 @@
 #' If the PGI-I response is missing (NA), the function will return NA for the score
 #' and the binary improvement indicator.
 #'
-#' @return A tibble containing:
+#' @return A data frame containing:
 #' \itemize{
-#'   \item The patient identifier column (as specified by id_column)
 #'   \item \strong{pgii_score} - The original PGI-I response score (1-7 or NA)
 #'   \item \strong{pgii_improved} - A binary variable indicating if the patient
-#'     reported improvement (1 = improvement [score 1-3], 0 = no improvement/worsening [score 4-7])
+#'     reported improvement (1 = improvement [scores 1-3], 0 = no improvement/worsening [scores 4-7])
 #'   \item \strong{pgii_n_valid} - (Optional) The number of valid responses
 #' }
 #'
