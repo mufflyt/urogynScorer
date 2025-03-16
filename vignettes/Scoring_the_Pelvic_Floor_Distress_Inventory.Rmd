@@ -1,0 +1,105 @@
+---
+title: "Scoring the Pelvic Floor Distress Inventory (PFDI-20)"
+author: "Tyler Muffly, MD"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Scoring the Pelvic Floor Distress Inventory (PFDI-20)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+The **Pelvic Floor Distress Inventory (PFDI-20)** is a validated questionnaire used in urogynecology to assess pelvic floor symptoms. This vignette demonstrates how to compute subscale and total scores using the `score_pfdi` function.
+
+# Installation
+
+Ensure that the `urogynScorer` package is installed:
+
+```r
+# Install from GitHub (if not installed already)
+# devtools::install_github("mufflyt/urogynScorer")
+
+# Load required packages
+library(urogynScorer)
+library(dplyr)
+library(readr)
+```
+
+# Load and Inspect Data
+
+We begin by loading a dataset that contains responses to the PFDI-20 items:
+
+```r
+# Load dataset
+data("pfdi_data")
+
+# Check column names
+colnames(pfdi_data)
+```
+
+# Identifying PFDI-20 Items
+
+The PFDI-20 consists of **three subscales:**
+- **POPDI-6**: Pelvic Organ Prolapse Distress Inventory (6 items)
+- **CRADI-8**: Colorectal-Anal Distress Inventory (8 items)
+- **UDI-6**: Urinary Distress Inventory (6 items)
+
+To ensure flexibility, we dynamically identify the relevant columns:
+
+```r
+# Select columns starting with "PFDI-"
+pfdi_cols <- grep("^PFDI-", colnames(pfdi_data), value = TRUE)
+
+# Assign subscale columns
+popdi_cols <- grep("^PFDI-.*POPDI", pfdi_cols, value = TRUE)  # POPDI-6
+cradi_cols <- grep("^PFDI-.*CRADI", pfdi_cols, value = TRUE)  # CRADI-8
+udi_cols   <- grep("^PFDI-.*UDI", pfdi_cols, value = TRUE)    # UDI-6
+
+# Verify correct assignment
+list(POPDI_6 = popdi_cols, CRADI_8 = cradi_cols, UDI_6 = udi_cols)
+```
+
+# Scoring the PFDI-20
+
+Now, we apply the `score_pfdi` function to compute subscale and total scores:
+
+```r
+# Score the PFDI-20
+scored_pfdi <- score_pfdi(pfdi_data, popdi_cols, cradi_cols, udi_cols)
+
+# View results
+head(scored_pfdi)
+```
+
+# Saving the Scored Data
+
+To save the output for further analysis:
+
+```r
+write_csv(scored_pfdi, "scored_PFDI20.csv")
+```
+
+# Summary and Visualization
+
+To understand the distribution of scores:
+
+```r
+# Summary statistics
+summary(scored_pfdi$PFDI_20_Total)
+
+# Histogram of total scores
+hist(scored_pfdi$PFDI_20_Total, main = "Distribution of PFDI-20 Total Scores", xlab = "PFDI-20 Total Score", col = "skyblue", border = "white")
+```
+
+# Conclusion
+
+This vignette demonstrates how to **efficiently score the PFDI-20** using `urogynScorer`. This automated approach ensures **consistent, reproducible** scoring in research and clinical applications.
+
+**References:**
+1. Barber, M. D., Walters, M. D., & Bump, R. C. (2005). Short forms of two condition-specific quality-of-life questionnaires for women with pelvic floor disorders (PFDI-20 and PFIQ-7). *American Journal of Obstetrics and Gynecology*, 193(1), 103-113.
+2. Jelovsek, J. E., & Barber, M. D. (2006). Women seeking treatment for pelvic organ prolapse have decreased body image and quality of life. *American Journal of Obstetrics and Gynecology*, 194(5), 1455-1461.
+
+This vignette is part of the `urogynScorer` package.
+
