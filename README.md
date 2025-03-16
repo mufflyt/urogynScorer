@@ -1,42 +1,55 @@
 urogynScorer: Urogynecology Questionnaire Scoring Package
 ================
-Your Name or Organization
+Tyler Muffly, MD
 2025-03-15
-
-# urogynScorer
 
 <!-- badges: start -->
 
+![R-CMD-check](https://github.com/mufflyt/urogynScorer/workflows/R-CMD-check/badge.svg)
 ![CRAN status](https://www.r-pkg.org/badges/version/urogynScorer)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)
+[![DOI](https://zenodo.org/badge/DOI/zenodo.placeholder.svg)](https://zenodo.org/placeholder)
 <!-- badges: end -->
 
+## Overview
+
 The **urogynScorer** package provides functions for scoring validated
-**urogynecology patient-reported outcome (PRO) measures**, including the
-**Pelvic Floor Distress Inventory (PFDI-20)**, **Pelvic Organ
-Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ)**, **Sandvik
-Severity Index**, and the **Patient Global Impression of Improvement
-(PGI-I)**. These tools are widely used in clinical and research settings
-to assess patient-reported outcomes in pelvic floor disorders.
+**urogynecology patient-reported outcome measures (PROMs)** used in
+clinical practice and research. The package implements evidence-based
+scoring algorithms for questionnaires including:
 
-## Features
+- **Pelvic Floor Distress Inventory (PFDI-20)** and its subscales
+  (POPDI-6, CRADI-8, and UDI-6)
+- **Patient Global Impression of Improvement (PGI-I)**
+- **Sandvik Severity Index** for urinary incontinence
 
-- **Automated scoring** for validated urogynecology PROs
-- **Handles missing data** following instrument-specific guidelines
-- **Provides clinically meaningful summary variables**
-- **Designed for reproducible research** with robust error handling
+## Key Features
+
+- **Automated, standardized scoring** of validated questionnaires
+- **Robust handling of missing data** following instrument-specific
+  guidelines
+- **Comprehensive input validation** with informative error messages
+- **Detailed logging** capabilities for debugging and quality assurance
+- **Tidy output** compatible with the tidyverse ecosystem
+- **Extensive documentation** with examples and references to primary
+  literature
 
 ## Installation
 
-You can install the **development version** of `urogynScorer` from
-GitHub using:
+### CRAN (Recommended)
+
+``` r
+install.packages("urogynScorer")
+```
+
+### Development Version
 
 ``` r
 # Install devtools if you haven't already
 install.packages("devtools")
 
-# Install urogynScorer from GitHub
-devtools::install_github("your-username/urogynScorer")
+# Install the development version from GitHub
+devtools::install_github("mufflyt/urogynScorer")
 ```
 
 ## Usage
@@ -45,86 +58,149 @@ devtools::install_github("your-username/urogynScorer")
 
 ``` r
 library(urogynScorer)
+library(dplyr)  # For data manipulation
 ```
 
-### **Example 1: Scoring the PGI-I**
+### PFDI-20 Scoring Example
 
-The **PGI-I** is a single-item questionnaire assessing perceived
-improvement after treatment.
-
-``` r
-# Example dataset
-df <- data.frame(pgii_response = c(1, 2, 3, 4, 5, 6, 7, NA))
-
-# Score PGI-I
-score_pgii(df, "pgii_response")
-```
-
-### **Example 2: Scoring the PFDI-20**
-
-The **Pelvic Floor Distress Inventory (PFDI-20)** assesses pelvic floor
-dysfunction symptoms across three subscales.
+The PFDI-20 measures pelvic floor symptoms across three domains: Pelvic
+Organ Prolapse (POPDI-6), Colorectal-Anal (CRADI-8), and Urinary
+(UDI-6).
 
 ``` r
-# Example dataset with PFDI-20 responses
-df_pfdi <- data.frame(
-  pfdi1 = c(3, 4, 2, 1, NA),
-  pfdi2 = c(5, 2, 1, 3, 4),
-  pfdi3 = c(NA, 1, 3, 2, 5)
-)
+# Load sample data
+data("pfdi_data")
+
+# View first few rows
+head(pfdi_data)
 
 # Score PFDI-20
-score_pfdi(df_pfdi, item_prefix = "pfdi")
-```
-
-### **Example 3: Scoring the Sandvik Severity Scale**
-
-The **Sandvik Incontinence Severity Index** categorizes the severity of
-urinary incontinence based on frequency and amount.
-
-``` r
-# Example dataset with incontinence severity responses
-df_sandvik <- data.frame(
-  frequency = c(1, 2, 3, 4, 2),
-  amount = c(1, 3, 2, 2, 1)
+pfdi_results <- calculate_pfdi_scores(
+  patient_data = pfdi_data,
+  id_column = "Record_ID",
+  missing_threshold = 0.5,  # Allow up to 50% missing data per subscale
+  verbose = TRUE  # Enable detailed logging
 )
 
-# Score Sandvik Severity Index
-score_sandvik(df_sandvik, freq_col = "frequency", amount_col = "amount")
+# View results
+pfdi_results
 ```
 
-## Supported Questionnaires
+### Patient Global Impression of Improvement (PGI-I) Example
 
-| Questionnaire | Description |
-|----|----|
-| **PGI-I** | Patient Global Impression of Improvement |
-| **PFDI-20** | Pelvic Floor Distress Inventory |
-| **PISQ** | Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire |
-| **Sandvik Severity Scale** | Urinary incontinence severity index |
+The PGI-I assesses patient-reported improvement following treatment on a
+7-point scale.
 
-## Handling Missing Data
+``` r
+# Create sample data
+pgii_data <- data.frame(
+  Record_ID = c("PT001", "PT002", "PT003", "PT004", "PT005"),
+  pgii_response = c(1, 2, 3, 4, NA)  # 1=Very much better, 7=Very much worse
+)
 
-Each function follows the **validated missing data rules** for the
-respective questionnaire. If a respondent skips certain items, the
-function prorates scores accordingly.
+# Score PGI-I responses
+pgii_results <- score_pgii(
+  patient_data = pgii_data,
+  item_name = "pgii_response",
+  keep_n_valid = TRUE,
+  verbose = TRUE
+)
+
+# View results
+pgii_results
+```
+
+### Sandvik Severity Index Example
+
+The Sandvik index categorizes urinary incontinence severity based on
+frequency and amount of leakage.
+
+``` r
+# Create sample data
+sandvik_data <- tibble::tibble(
+  frequency = c(1, 2, 3, 4, 0),  # 0=Never to 4=Daily
+  amount = c(1, 2, 3, 2, 1)      # 1=Drops to 3=Large amounts
+)
+
+# Calculate Sandvik Severity Index
+sandvik_results <- sandvik_severity_index(
+  frequency = sandvik_data$frequency,
+  amount = sandvik_data$amount
+)
+
+# View results
+sandvik_results
+```
+
+## Full Documentation
+
+For detailed documentation, please see the package vignettes:
+
+``` r
+# List available vignettes
+vignette(package = "urogynScorer")
+
+# View PFDI-20 vignette
+vignette("Scoring_the_Pelvic_Floor_Distress_Inventory", package = "urogynScorer")
+```
+
+## How Questionnaires Are Scored
+
+### PFDI-20 Scoring
+
+The PFDI-20 consists of three subscales: - **POPDI-6** (questions 1-6):
+Pelvic Organ Prolapse Distress Inventory - **CRADI-8** (questions 7-14):
+Colorectal-Anal Distress Inventory - **UDI-6** (questions 15-20):
+Urinary Distress Inventory
+
+Each question uses a 0-4 scale: - 0: Not at all - 1: Somewhat - 2:
+Moderately - 3: Quite a bit - 4: Extremely
+
+Scoring: 1. Calculate the mean score for each subscale (if ≥50% of items
+are answered) 2. Multiply the mean by 25 to get a 0-100 scale 3. Sum the
+three subscale scores to get the PFDI-20 total (0-300 scale)
+
+### PGI-I Scoring
+
+The PGI-I is scored from 1-7: 1. Very much better 2. Much better 3. A
+little better 4. No change 5. A little worse 6. Much worse 7. Very much
+worse
+
+The `score_pgii()` function also adds a binary improvement indicator
+(1=improved \[1-3\], 0=not improved \[4-7\]).
+
+### Sandvik Severity Index
+
+The index is calculated by multiplying frequency (0-4) by amount (1-3)
+of leakage, resulting in: - **Slight** (≤1) - **Moderate** (2-5) -
+**Severe** (6-9) - **Very Severe** (≥10)
+
+## Citation
+
+If you use urogynScorer in your research, please cite:
+
+    Muffly T (2025). urogynScorer: Calculate Scores for Urogynecology Questionnaires. 
+    R package version 0.1.0. https://github.com/mufflyt/urogynScorer
 
 ## References
+
+- **Barber, M. D., Walters, M. D., & Bump, R. C.** (2005). Short forms
+  of two condition-specific quality-of-life questionnaires for women
+  with pelvic floor disorders (PFDI-20 and PFIQ-7). *American Journal of
+  Obstetrics and Gynecology, 193*(1), 103-113.
 
 - **Yalcin, I., & Bump, R. C.** (2003). Validation of two global
   impression questionnaires for incontinence. *American Journal of
   Obstetrics and Gynecology, 189*(1), 98-101.
-- **Rogers, R. G.** (2006). Validation of the PISQ-12 questionnaire.
-  *International Urogynecology Journal, 17*(6), 636-645.
-- **Sandvik, H., et al.** (1993). Severity index for epidemiological
-  surveys of female urinary incontinence. *Journal of Clinical
-  Epidemiology, 46*(1), 11-19.
+
+- **Sandvik, H., Seim, A., Vanvik, A., & Hunskaar, S.** (2000). A
+  severity index for epidemiological surveys of female urinary
+  incontinence: Comparison with 48-hour pad-weighing tests.
+  *Neurourology and Urodynamics, 19*(2), 137-145.
 
 ## Contributing
 
-We welcome contributions! If you find a bug, have a feature request, or
-want to add additional urogynecology PRO measures, please submit an
-issue or pull request on GitHub.
+Contributions to urogynScorer are welcome! Please submit issues and pull
+requests on GitHub.
 
-## License
-
-This package is released under the **MIT License**.
+License: MIT + file LICENSE
