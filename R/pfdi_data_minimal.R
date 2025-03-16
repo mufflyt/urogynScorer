@@ -31,4 +31,4 @@
 #' }
 #'
 #' @source This is a synthetic dataset created for demonstration purposes.
-"pfdi_data"
+"pfdi_data_minimal"
