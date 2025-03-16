@@ -29,3 +29,5 @@ LazyData: true
 Depends:
     R (>= 3.5.0)
 VignetteBuilder: knitr
+URL: https://github.com/mufflyt/urogynScorer
+BugReports: https://github.com/mufflyt/urogynScorer/issues
