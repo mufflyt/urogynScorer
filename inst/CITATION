@@ -1,0 +1,130 @@
+bibentry(
+  bibtype  = "Article",
+  title    = "Short forms of two condition-specific quality-of-life questionnaires for women with pelvic floor disorders (PFDI-20 and PFIQ-7)",
+  author   = c(person("Matthew D.", "Barber"),
+               person("Mark D.", "Walters"),
+               person("Roger C.", "Bump")),
+  journal  = "American Journal of Obstetrics and Gynecology",
+  year     = 2005,
+  volume   = 193,
+  number   = 1,
+  pages    = "103-113",
+  doi      = "10.1016/j.ajog.2004.12.025",
+  url      = "https://www.ajog.org/article/S0002-9378(04)02108-8/fulltext",
+  issn     = "0002-9378",
+  publisher = "Elsevier",
+  address   = "Cleveland, OH"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Validation of two global impression questionnaires for incontinence",
+  author   = c(person("Ilker", "Yalcin"),
+               person("Roger C.", "Bump")),
+  journal  = "American Journal of Obstetrics and Gynecology",
+  year     = 2003,
+  volume   = 189,
+  number   = 1,
+  pages    = "98-101",
+  doi      = "10.1067/mob.2003.379",
+  url      = "https://www.sciencedirect.com/science/article/abs/pii/S0002937803003338",
+  issn     = "0002-9378",
+  publisher = "Elsevier",
+  abstract  = "The purpose of this study was to assess the construct validity of two global assessment questions, the Patient Global Impression of Severity and of Improvement, in female patients with stress urinary incontinence."
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "A severity index for epidemiological surveys of female urinary incontinence: Comparison with 48-hour pad-weighing tests",
+  author   = c(person("Hogne", "Sandvik"),
+               person("Anders", "Seim"),
+               person("Asbørn", "Vanvik"),
+               person("Steinar", "Hunskaar")),
+  journal  = "Neurourology and Urodynamics",
+  year     = 2000,
+  volume   = 19,
+  number   = 2,
+  pages    = "137-145",
+  doi      = "10.1002/(SICI)1520-6777(2000)19:2<137::AID-NAU4>3.0.CO;2-G",
+  url      = "https://onlinelibrary.wiley.com/doi/10.1002/(SICI)1520-6777(2000)19:2%3C137::AID-NAU4%3E3.0.CO;2-G",
+  issn     = "1520-6777",
+  publisher = "Wiley",
+  address   = "Bergen, Norway",
+  abstract  = "The severity index is based on information about frequency (four levels) and amount of leakage (two or three levels). By multiplication, an index value (1-8 or 1-12) is reached."
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Patient-reported outcome measures in pelvic floor disorders",
+  author   = c(person("J. Eric", "Jelovsek"),
+               person("Matthew D.", "Barber")),
+  journal  = "American Journal of Obstetrics and Gynecology",
+  year     = 2006,
+  volume   = 194,
+  number   = 5,
+  pages    = "1455-1461",
+  doi      = "10.1016/j.ajog.2006.01.060",
+  url      = "https://www.ajog.org/article/S0002-9378(06)00148-7/fulltext",
+  issn     = "0002-9378",
+  publisher = "Elsevier",
+  address   = "Cleveland, OH"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Responsiveness of the Pelvic Floor Distress Inventory (PFDI) and Pelvic Floor Impact Questionnaire (PFIQ) in women undergoing vaginal surgery and pessary treatment for pelvic organ prolapse",
+  author   = c(person("Matthew D.", "Barber"),
+               person("Mark D.", "Walters"),
+               person("Geoffrey W.", "Cundiff"),
+               person("PESSRI Trial Group", "")),
+  journal  = "American Journal of Obstetrics and Gynecology",
+  year     = 2006,
+  volume   = 194,
+  number   = 5,
+  pages    = "1492-1498",
+  doi      = "10.1016/j.ajog.2006.01.076",
+  issn     = "0002-9378",
+  publisher = "Elsevier"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Further validation of the short form versions of the Pelvic Floor Distress Inventory (PFDI) and Pelvic Floor Impact Questionnaire (PFIQ)",
+  author   = c(person("Matthew D.", "Barber"),
+               person("Zhen", "Chen"),
+               person("Emily", "Lukacz"),
+               person("Alayne", "Markland"),
+               person("Cindy", "Wai"),
+               person("Linda", "Brubaker"),
+               person("Ingrid", "Nygaard"),
+               person("Alison", "Weidner"),
+               person("Nancy K.", "Janz"),
+               person("Cathie", "Spino")),
+  journal  = "Neurourology and Urodynamics",
+  year     = 2011,
+  volume   = 30,
+  number   = 4,
+  pages    = "541-546",
+  doi      = "10.1002/nau.20934",
+  publisher = "Wiley",
+  issn     = "1520-6777"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Validation of a severity index in female urinary incontinence and its implementation in an epidemiological survey",
+  author   = c(person("Hogne", "Sandvik"),
+               person("Steinar", "Hunskaar"),
+               person("Arnfinn", "Seim"),
+               person("Ragnar", "Hermstad"),
+               person("Anita", "Vanvik"),
+               person("Harald", "Bratt")),
+  journal  = "Journal of Epidemiology and Community Health",
+  year     = 1993,
+  volume   = 47,
+  number   = 6,
+  pages    = "497-499",
+  doi      = "10.1136/jech.47.6.497",
+  publisher = "BMJ Publishing Group",
+  issn     = "0143-005X"
+)
