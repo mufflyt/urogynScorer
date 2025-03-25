@@ -1,7 +1,7 @@
 Package: urogynScorer
 Type: Package
 Title: Calculate Scores for Urogynecology Questionnaires
-Version: 0.1.0
+Version: 0.2.0
 Date: 2025-03-15
 Authors@R: c(
     person(given = "Tyler", 
