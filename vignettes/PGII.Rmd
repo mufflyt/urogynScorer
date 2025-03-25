@@ -1,0 +1,608 @@
+---
+title: "Patient Global Impression of Improvement (PGI-I): A Comprehensive Implementation Guide"
+author: "Tyler Muffly, MD"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 3
+    fig_caption: true
+    fig_height: 5
+    fig_width: 7
+    dev: "svg"
+vignette: >
+  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Patient Global Impression of Improvement (PGI-I): A Comprehensive Implementation Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE,
+  dpi = 300,
+  out.width = "100%"
+)
+
+# Load required packages
+library(urogynScorer)
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+library(tidyr)
+library(patchwork)
+library(scales)
+library(viridis)
+
+# Set a consistent theme for all plots
+theme_set(theme_minimal(base_size = 12) +
+          theme(
+            plot.title = element_text(face = "bold", size = 14),
+            plot.subtitle = element_text(face = "italic", size = 11),
+            panel.grid.minor = element_blank(),
+            panel.background = element_rect(fill = "white", color = NA),
+            plot.background = element_rect(fill = "white", color = NA)
+          ))
+```
+
+<div class="abstract">
+<h2>Abstract</h2>
+<p>The Patient Global Impression of Improvement (PGI-I) is a validated, single-item outcome measure widely used in urogynecology to assess patients' subjective perception of treatment efficacy. This vignette provides a comprehensive guide to implementing, scoring, analyzing, and interpreting PGI-I data using the <code>urogynScorer</code> package. We demonstrate how to integrate PGI-I assessment with other clinical outcome measures and showcase practical data visualization techniques for clinical practice and research applications. Through detailed code examples and case studies, users will learn best practices for leveraging this powerful patient-centered outcome measure.</p>
+</div>
+
+# 1. Introduction to the PGI-I Scale
+
+The Patient Global Impression of Improvement (PGI-I) scale is a validated patient-reported outcome measure that provides a simple, direct assessment of patients' perceptions of treatment efficacy. As healthcare delivery increasingly prioritizes patient-centered care, the PGI-I has emerged as an essential tool in urogynecology and other medical specialties for several reasons:
+
+* **Patient-Centered**: Directly measures the patient's subjective experience of improvement
+* **Simplicity**: Single item reduces respondent burden
+* **Validity**: Strong correlation with condition-specific quality of life measures [@yalcin2003]
+* **Versatility**: Applicable across diverse treatment modalities and conditions
+* **Responsiveness**: Sensitive to clinically meaningful changes
+
+```{r pgii-scale-visual, echo=FALSE, fig.cap="The Patient Global Impression of Improvement (PGI-I) scale presented as a visual spectrum from very much better to very much worse.", fig.align='center'}
+# Create a visual representation of the PGI-I scale
+scale_data <- data.frame(
+  value = 1:7,
+  label = c("Very much\nbetter", "Much\nbetter", "A little\nbetter", 
+            "No\nchange", "A little\nworse", "Much\nworse", 
+            "Very much\nworse"),
+  group = factor(c(rep("Improvement", 3), "No Change", rep("Worsening", 3)),
+                 levels = c("Improvement", "No Change", "Worsening"))
+)
+
+ggplot(scale_data, aes(x = value, y = 1, fill = group)) +
+  geom_tile(color = "white", size = 0.5, height = 0.8) +
+  geom_text(aes(label = label), fontface = "bold") +
+  geom_text(aes(label = value), y = 0.5, size = 4, fontface = "bold") +
+  scale_fill_manual(values = c("Improvement" = "#4DAF4A", 
+                               "No Change" = "#FFFF33", 
+                               "Worsening" = "#E41A1C")) +
+  scale_x_continuous(breaks = 1:7, limits = c(0.5, 7.5), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0.2, 1.3), expand = c(0, 0)) +
+  theme_void() +
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        plot.title = element_text(hjust = 0.5, face = "bold"),
+        plot.subtitle = element_text(hjust = 0.5),
+        plot.caption = element_text(hjust = 0, face = "italic")) +
+  labs(title = "Patient Global Impression of Improvement (PGI-I) Scale",
+       subtitle = "How would you describe your condition now compared to how it was before treatment?",
+       caption = "Source: Adapted from Yalcin & Bump (2003)")
+```
+
+## 1.1 Historical Development and Validation
+
+The PGI-I scale evolved from the Clinical Global Impression (CGI) scales originally developed for psychiatric research. In 2003, Yalcin and Bump [@yalcin2003] validated the PGI-I specifically for women with urinary incontinence, demonstrating its:
+
+* Strong correlation with condition-specific quality of life measures
+* Excellent test-retest reliability (kappa = 0.75)
+* High sensitivity to treatment effects
+* Strong association with objective measures of incontinence
+
+Since its initial validation, the PGI-I has been incorporated into numerous clinical trials and practice guidelines in urogynecology. Its adoption exemplifies the shift toward patient-centered outcomes in both research and clinical practice.
+
+## 1.2 Psychometric Properties and Clinical Significance
+
+```{r psychometric-data, echo=FALSE}
+psychometric_data <- data.frame(
+  Property = c("Test-retest reliability", "Correlation with I-QOL change", 
+               "Correlation with incontinence episodes reduction", 
+               "Minimal Important Difference (MID)"),
+  Value = c("κ = 0.75", "r = 0.36-0.52", "r = 0.44", "Score of ≤2"),
+  Notes = c("Good to excellent", "Moderate to strong association", 
+            "Moderate association with objective improvement", 
+            "\"Much better\" or better indicates clinically significant improvement")
+)
+
+kable(psychometric_data, caption = "Key Psychometric Properties of the PGI-I Scale") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center") %>%
+  column_spec(1, bold = TRUE) %>%
+  column_spec(2, width = "15em") %>%
+  column_spec(3, width = "25em", italic = TRUE)
+```
+
+The minimal important difference (MID) for the PGI-I has been established in studies as a score of ≤2 ("much better" or "very much better"), indicating clinically significant improvement [@srikrishna2010]. This threshold is commonly used to define "responders" in clinical trials and has been shown to correspond with meaningful improvements in quality of life measures.
+
+# 2. Implementation in the urogynScorer Package
+
+The `urogynScorer` package provides a standardized, robust method for scoring and analyzing PGI-I data through the `score_pgii()` function. This section demonstrates the practical implementation of PGI-I scoring in research and clinical settings.
+
+## 2.1 Function Overview
+
+The `score_pgii()` function processes raw PGI-I responses and outputs both the original scores and a derived binary improvement indicator:
+
+```{r function-details, echo=FALSE}
+function_params <- data.frame(
+  Parameter = c("patient_data", "item_name", "id_column", "keep_n_valid", "verbose", "output_file"),
+  Description = c("Data frame containing PGI-I responses", 
+                  "Column name in the data frame containing PGI-I responses",
+                  "Column name for patient identifiers (default: \"Record_ID\")",
+                  "Whether to include count of valid responses in output (default: FALSE)",
+                  "Whether to print detailed logging messages (default: FALSE)",
+                  "Path to save results (default: NULL, no file output)")
+)
+
+kable(function_params, caption = "Parameters for the score_pgii() function") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center") %>%
+  column_spec(1, bold = TRUE, width = "12em") %>%
+  column_spec(2, width = "30em")
+```
+
+The function returns a tibble with:
+* The patient identifier column
+* `pgii_score`: The original PGI-I response (1-7 or NA)
+* `pgii_improved`: Binary indicator (1 = improved [scores 1-3], 0 = not improved [scores 4-7])
+* `pgii_n_valid`: (Optional) Count of valid responses
+
+## 2.2 Basic Usage Example
+
+Let's start with a simple example using simulated patient data:
+
+```{r basic-example}
+# Create sample dataset
+set.seed(123) # For reproducibility
+patient_data <- data.frame(
+  patient_id = paste0("P", 101:120),
+  treatment_group = rep(c("Surgery", "Conservative"), each = 10),
+  baseline_score = sample(5:25, 20, replace = TRUE),
+  pgii_response = c(sample(1:3, 10, replace = TRUE), sample(2:7, 10, replace = TRUE))
+)
+
+# Display sample of the data
+head (patient_data) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center")
+
+# Score PGI-I responses
+pgii_results <- score_pgii(
+  patient_data = patient_data,
+  item_name = "pgii_response",
+  id_column = "patient_id",
+  keep_n_valid = TRUE,
+  verbose = TRUE
+)
+
+# Examine results
+head(pgii_results) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center")
+```
+
+## 2.3 Handling Missing Data
+
+The `score_pgii()` function appropriately handles missing data, returning `NA` for both the original score and the binary improvement indicator when responses are missing:
+
+```{r missing-data-example}
+# Create dataset with missing values
+patient_data_missing <- patient_data
+# Set some responses to NA
+patient_data_missing$pgii_response[c(3, 7, 15)] <- NA
+
+# Score data with missing values
+pgii_results_missing <- score_pgii(
+  patient_data = patient_data_missing,
+  item_name = "pgii_response",
+  id_column = "patient_id"
+)
+
+# Examine specifically the rows with missing data
+pgii_results_missing %>%
+  filter(is.na(pgii_score)) %>%
+  kable(caption = "Rows with missing PGI-I responses") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center")
+```
+
+# 3. Analysis and Visualization of PGI-I Data
+
+Once PGI-I responses have been scored, the data can be analyzed and visualized in various ways to derive clinically meaningful insights.
+
+## 3.1 Group Comparisons
+
+A common application is comparing treatment outcomes between different intervention groups:
+
+```{r group-comparison}
+# Join PGI-I results with original data
+combined_data <- left_join(patient_data, pgii_results, by = "patient_id")
+
+# Create contingency table of improvement by treatment group
+improvement_table <- table(combined_data$treatment_group, 
+                           factor(combined_data$pgii_improved, 
+                                  levels = c(0, 1), 
+                                  labels = c("Not Improved", "Improved")))
+
+# Display the table
+improvement_table %>%
+  kable(caption = "Improvement Status by Treatment Group") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center")
+
+# Calculate percentages within each group
+prop_table <- prop.table(improvement_table, 1) * 100
+prop_table %>%
+  round(1) %>%
+  kable(caption = "Percentage Improved by Treatment Group") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center")
+```
+
+## 3.2 Visual Representations
+
+### 3.2.1 Distribution of Responses
+
+```{r response-distribution, fig.cap="Distribution of PGI-I responses by treatment group. Lower scores indicate greater improvement."}
+# Create visualization of response distribution
+ggplot(combined_data, aes(x = factor(pgii_score), fill = treatment_group)) +
+  geom_bar(position = "dodge") +
+  scale_fill_viridis_d(option = "D", end = 0.8) +
+  scale_x_discrete(
+    labels = c("1" = "Very much\nbetter", "2" = "Much\nbetter", 
+               "3" = "A little\nbetter", "4" = "No\nchange", 
+               "5" = "A little\nworse", "6" = "Much\nworse", 
+               "7" = "Very much\nworse")
+  ) +
+  labs(
+    title = "Distribution of PGI-I Responses by Treatment Group",
+    x = "PGI-I Response",
+    y = "Number of Patients",
+    fill = "Treatment"
+  ) +
+  theme(axis.text.x = element_text(angle = 0, hjust = 0.5))
+```
+
+### 3.2.2 Improvement Rates
+
+```{r improvement-rates, fig.cap="Improvement rates by treatment group. Improvement defined as PGI-I score of 1-3."}
+# Create summary data
+summary_data <- combined_data %>%
+  group_by(treatment_group) %>%
+  summarize(
+    improvement_rate = mean(pgii_improved, na.rm = TRUE) * 100,
+    n = n(),
+    se = sqrt((improvement_rate/100 * (1-improvement_rate/100)) / n) * 100  # Standard error
+  )
+
+# Create bar chart with error bars
+ggplot(summary_data, aes(x = treatment_group, y = improvement_rate, fill = treatment_group)) +
+  geom_col(width = 0.7) +
+  geom_errorbar(aes(ymin = improvement_rate - se, ymax = improvement_rate + se), 
+                width = 0.2) +
+  geom_text(aes(label = paste0(round(improvement_rate, 1), "%\n(n=", n, ")")),
+            vjust = -1.5, size = 4, fontface = "bold") +
+  scale_fill_viridis_d(option = "D", end = 0.8) +
+  labs(
+    title = "Improvement Rates by Treatment Group Based on PGI-I",
+    subtitle = "Percentage of patients reporting improvement (PGI-I score 1-3)",
+    x = "Treatment Group",
+    y = "Improvement Rate (%)"
+  ) +
+  theme(legend.position = "none") +
+  ylim(0, max(summary_data$improvement_rate + summary_data$se + 15))
+```
+
+### 3.2.3 Advanced Visualization: Response Profile
+
+```{r response-profile, fig.width=8, fig.height=6, fig.cap="Comprehensive visualization of PGI-I response profiles by treatment group."}
+# Calculate response proportions by treatment group
+response_profile <- combined_data %>%
+  group_by(treatment_group, pgii_score) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  group_by(treatment_group) %>%
+  mutate(
+    proportion = count / sum(count) * 100,
+    cumulative = cumsum(proportion),
+    midpoint = cumulative - proportion/2,
+    improved = ifelse(pgii_score <= 3, "Improved", "Not Improved")
+  )
+
+# Create response labels
+response_labels <- c(
+  "1" = "Very much better",
+  "2" = "Much better",
+  "3" = "A little better",
+  "4" = "No change",
+  "5" = "A little worse",
+  "6" = "Much worse",
+  "7" = "Very much worse"
+)
+
+# Create a comprehensive visualization
+ggplot(response_profile, aes(x = treatment_group, y = proportion, fill = factor(pgii_score))) +
+  geom_bar(stat = "identity", position = "stack", width = 0.7) +
+  geom_text(aes(y = midpoint, label = paste0(round(proportion, 1), "%")),
+            color = "white", fontface = "bold", size = 3.5) +
+  scale_fill_viridis_d(
+    option = "D",
+    labels = response_labels,
+    guide = guide_legend(title = "PGI-I Response", reverse = FALSE)
+  ) +
+  geom_hline(yintercept = 50, linetype = "dashed", color = "white", size = 1) +
+  annotate("rect", xmin = 0.5, xmax = 2.5, ymin = 0, ymax = 50, 
+           alpha = 0.2, fill = "white") +
+  labs(
+    title = "PGI-I Response Profile by Treatment Group",
+    subtitle = "Distribution of patient-reported improvement outcomes",
+    x = "Treatment Group",
+    y = "Proportion of Patients (%)"
+  ) +
+  theme(legend.position = "right") +
+  coord_flip()
+```
+
+## 3.3 Statistical Analysis
+
+Statistical comparisons can be conducted to formally test differences in improvement rates:
+
+```{r statistical-analysis}
+# Fisher's exact test for comparing improvement rates
+fisher_test <- fisher.test(improvement_table)
+
+# Create a results table
+fisher_results <- data.frame(
+  "Test" = "Fisher's Exact Test",
+  "p-value" = round(fisher_test$p.value, 3),
+  "Odds Ratio" = round(fisher_test$estimate, 2),
+  "95% CI Lower" = round(fisher_test$conf.int[1], 2),
+  "95% CI Upper" = round(fisher_test$conf.int[2], 2)
+)
+
+# Display results
+fisher_results %>%
+  kable(caption = "Statistical Comparison of Improvement Rates") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center")
+```
+
+# 4. Integrating PGI-I with Other Outcome Measures
+
+The PGI-I is most valuable when used as part of a comprehensive assessment strategy. Here we demonstrate integration with hypothetical condition-specific measures:
+
+```{r integration, fig.width=9, fig.height=5, fig.cap="Correlation between PGI-I scores and change in condition-specific measures."}
+# Simulate a condition-specific measure (e.g., symptom severity score)
+set.seed(456)
+combined_data$baseline_score <- sample(40:100, nrow(combined_data), replace = TRUE)
+combined_data$followup_score <- combined_data$baseline_score - 
+                               (15 + rnorm(nrow(combined_data), 0, 5)) * (4 - combined_data$pgii_score/2)
+combined_data$change_score <- combined_data$followup_score - combined_data$baseline_score
+combined_data$percent_change <- (combined_data$change_score / combined_data$baseline_score) * 100
+
+# Create visualization showing relationship between PGI-I and change scores
+p1 <- ggplot(combined_data, aes(x = factor(pgii_score), y = change_score, fill = factor(pgii_score))) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_viridis_d() +
+  labs(
+    title = "Relationship Between PGI-I and Absolute Change",
+    x = "PGI-I Score",
+    y = "Absolute Change in Symptom Score",
+    subtitle = "More negative values indicate greater improvement"
+  ) +
+  theme(legend.position = "none")
+
+p2 <- ggplot(combined_data, aes(x = factor(pgii_score), y = percent_change, fill = factor(pgii_score))) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_viridis_d() +
+  labs(
+    title = "Relationship Between PGI-I and Percent Change",
+    x = "PGI-I Score",
+    y = "Percent Change in Symptom Score (%)",
+    subtitle = "More negative values indicate greater improvement"
+  ) +
+  theme(legend.position = "none")
+
+# Display side by side
+p1 + p2 + plot_layout(guides = "collect")
+```
+
+# 5. Clinical Interpretation and Best Practices
+
+## 5.1 Interpreting Individual Scores
+
+The PGI-I provides a direct assessment of the patient's perception of change. Clinical interpretation generally follows these guidelines:
+
+* **Scores 1-2 (Very much/Much better)**: Strong treatment response, generally considered clinically significant improvement
+* **Score 3 (A little better)**: Modest improvement, may or may not be clinically meaningful
+* **Score 4 (No change)**: Treatment has not produced perceptible improvement
+* **Scores 5-7 (Worsening)**: Treatment may have been ineffective or potentially harmful
+
+```{r clinical-recommendations, echo=FALSE}
+clinical_recommendations <- data.frame(
+  "PGI-I Score" = c("1-2", "3", "4", "5-7"),
+  "Interpretation" = c("Clinically significant improvement", 
+                       "Modest improvement", 
+                       "No perceptible change", 
+                       "Worsening condition"),
+  "Clinical Action" = c("Continue current management, document success", 
+                        "Consider augmenting current treatment", 
+                        "Consider alternative treatment approach", 
+                        "Discontinue current approach, reassess")
+)
+
+kable(clinical_recommendations, caption = "Clinical Interpretation and Recommended Actions") %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed"), 
+                full_width = FALSE, position = "center") %>%
+  column_spec(1, bold = TRUE) %>%
+  column_spec(2:3, width = "20em")
+```
+
+## 5.2 Research Applications
+
+For research applications, the PGI-I offers several advantages:
+
+1. **Simplicity**: Easy to administer and straightforward to interpret
+2. **Patient-Centricity**: Directly measures the outcome most relevant to patients
+3. **Complementarity**: Works well alongside condition-specific measures
+4. **Standardization**: Facilitates comparison across different studies and conditions
+
+Researchers typically use PGI-I as:
+* A primary or secondary outcome measure in clinical trials
+* A validation metric for other outcome instruments
+* A threshold for defining "responders" vs. "non-responders"
+
+## 5.3 Limitations and Considerations
+
+While valuable, the PGI-I has several limitations to consider:
+
+* **Single-item measure**: Less reliable than multi-item questionnaires
+* **Recall bias**: Depends on patient's memory of pre-treatment state
+* **Anchoring effects**: Response may be influenced by recent experiences
+* **Ceiling/floor effects**: May not capture nuances at extremes of improvement/worsening
+
+Best practice is to use PGI-I in conjunction with condition-specific measures and, where possible, objective clinical assessments.
+
+# 6. Case Study: PGI-I in a Pelvic Floor Disorder Trial
+
+```{r case-study, echo=FALSE}
+# Simulate a more realistic clinical trial dataset
+set.seed(789)
+n_patients <- 120
+
+trial_data <- data.frame(
+  patient_id = paste0("PT", 1000:1119),
+  age = round(rnorm(n_patients, mean = 62, sd = 10)),
+  treatment = rep(c("Surgery", "Pessary", "Pelvic Floor PT"), each = n_patients/3),
+  baseline_POP_Q = sample(c("I", "II", "III", "IV"), n_patients, replace = TRUE, 
+                          prob = c(0.1, 0.3, 0.4, 0.2)),
+  baseline_PFDI20 = round(rnorm(n_patients, mean = 120, sd = 25)),
+  followup_PFDI20 = NA,
+  pgii_response = NA
+)
+
+# Simulate treatment effects (different for each treatment)
+for(i in 1:nrow(trial_data)) {
+  if(trial_data$treatment[i] == "Surgery") {
+    effect_size <- -round(rnorm(1, 85, 15))  # Large improvement
+    pgii_prob <- c(0.4, 0.35, 0.15, 0.05, 0.025, 0.0125, 0.0125)  # Mostly very good outcomes
+  } else if(trial_data$treatment[i] == "Pessary") {
+    effect_size <- -round(rnorm(1, 50, 20))  # Moderate improvement
+    pgii_prob <- c(0.15, 0.30, 0.30, 0.15, 0.05, 0.03, 0.02)  # Mixed outcomes
+  } else {  # Pelvic Floor PT
+    effect_size <- -round(rnorm(1, 35, 25))  # Small-moderate improvement
+    pgii_prob <- c(0.1, 0.2, 0.3, 0.25, 0.1, 0.03, 0.02)  # More modest outcomes
+  }
+  
+  # Calculate followup scores
+  trial_data$followup_PFDI20[i] <- max(0, trial_data$baseline_PFDI20[i] + effect_size)
+  
+  # Assign PGI-I response, partly influenced by PFDI-20 change
+  # but with randomness to reflect subjective nature
+  percent_change <- (trial_data$followup_PFDI20[i] - trial_data$baseline_PFDI20[i]) / 
+                     trial_data$baseline_PFDI20[i] * 100
+  
+  # Adjust probabilities based on percent change
+  if(percent_change < -50) {  # Very large improvement
+    pgii_prob <- pgii_prob * c(1.5, 1.3, 1, 0.7, 0.5, 0.3, 0.3)
+  } else if(percent_change > 0) {  # Worsening
+    pgii_prob <- pgii_prob * c(0.3, 0.5, 0.7, 1, 1.3, 1.5, 1.7)
+  }
+  
+  # Normalize probabilities
+  pgii_prob <- pgii_prob / sum(pgii_prob)
+  
+  # Assign PGI-I response
+  trial_data$pgii_response[i] <- sample(1:7, 1, prob = pgii_prob)
+}
+
+# Calculate change scores
+trial_data$PFDI20_change <- trial_data$followup_PFDI20 - trial_data$baseline_PFDI20
+trial_data$PFDI20_percent_change <- (trial_data$PFDI20_change / trial_data$baseline_PFDI20) * 100
+
+# Score PGI-I
+trial_pgii <- score_pgii(
+  patient_data = trial_data,
+  item_name = "pgii_response",
+  id_column = "patient_id"
+)
+
+# Join results
+trial_data <- left_join(trial_data, trial_pgii, by = "patient_id")
+```
+
+To illustrate the real-world application of PGI-I, we present a simulated trial of 120 women with pelvic organ prolapse randomized to surgical repair, pessary, or pelvic floor physical therapy.
+
+```{r case-outcomes, fig.width=10, fig.height=7, fig.cap="Comprehensive comparison of treatment outcomes using both PGI-I and PFDI-20 scores."}
+# Create a multi-panel visualization
+p1 <- ggplot(trial_data, aes(x = treatment, fill = factor(pgii_improved))) +
+  geom_bar(position = "fill") +
+  scale_fill_manual(
+    values = c("0" = "#E41A1C", "1" = "#4DAF4A"),
+    labels = c("0" = "Not Improved", "1" = "Improved")
+  ) +
+  labs(
+    title = "Proportion of Patients Reporting Improvement",
+    x = "Treatment",
+    y = "Proportion",
+    fill = "Status"
+  ) +
+  scale_y_continuous(labels = percent) +
+  theme(legend.position = "top")
+
+p2 <- ggplot(trial_data, aes(x = PFDI20_percent_change, y = pgii_score, color = treatment)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "loess", se = FALSE) +
+  scale_color_viridis_d() +
+  labs(
+    title = "Correlation Between PFDI-20 Change and PGI-I",
+    x = "PFDI-20 Percent Change (%)",
+    y = "PGI-I Score",
+    color = "Treatment"
+  ) +
+  scale_y_continuous(
+    breaks = 1:7,
+    labels = c("Very much better", "Much better", "A little better", 
+              "No change", "A little worse", "Much worse", "Very much worse")
+  ) +
+  theme(axis.text.y = element_text(hjust = 1))
+
+p3 <- ggplot(trial_data, aes(x = treatment, y = PFDI20_percent_change, fill = treatment)) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_viridis_d() +
+  labs(
+    title = "PFDI-20 Percent Change by Treatment",
+    x = "Treatment",
+    y = "Percent Change (%)",
+    fill = "Treatment"
+  ) +
+  theme(legend.position = "none")
+
+# Combine plots
+(p1 | p3) / p2 + 
+  plot_annotation(
+    title = "Comprehensive Treatment Outcome Assessment",
+    subtitle = "Comparing subjective (PGI-I) and objective (PFDI-20) measures",
+    theme = theme(plot.title = element_text(size = 16, face = "bold"),
+                  plot.subtitle = element_text(size = 12, face = "italic"))
+  )
+```
+
+## 6.1 Key Findings from the Case Study
+
+1. **Concordance between measures**: Patients with greater PFDI-20 improvement tend to report better PGI-

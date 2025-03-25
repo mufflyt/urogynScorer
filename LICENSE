@@ -1,2 +1,58 @@
 YEAR: 2025
 COPYRIGHT HOLDER: Tyler Muffly
+
+MIT License
+
+Copyright (c) 2025 Tyler Muffly, MD
+Copyright (c) 2025 Denver Health and Hospital Authority
+All rights reserved.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+ADDITIONAL NOTICES:
+
+This package, urogynScorer, implements scoring algorithms for validated clinical
+questionnaires and assessment tools. These implementations are based on published
+research and validation studies, specifically:
+
+1. The Pelvic Floor Distress Inventory (PFDI-20) scoring algorithm is based on:
+   Barber, M. D., Walters, M. D., & Bump, R. C. (2005). Short forms of two
+   condition-specific quality-of-life questionnaires for women with pelvic
+   floor disorders (PFDI-20 and PFIQ-7). American Journal of Obstetrics and
+   Gynecology, 193(1), 103-113.
+
+2. The Patient Global Impression of Improvement (PGI-I) scoring is based on:
+   Yalcin, I., & Bump, R. C. (2003). Validation of two global impression
+   questionnaires for incontinence. American Journal of Obstetrics and
+   Gynecology, 189(1), 98-101.
+
+3. The Sandvik Severity Index scoring is based on:
+   Sandvik, H., Seim, A., Vanvik, A., & Hunskaar, S. (2000). A severity index
+   for epidemiological surveys of female urinary incontinence: Comparison with
+   48-hour pad-weighing tests. Neurourology and Urodynamics, 19(2), 137-145.
+
+The algorithms implemented in this software are not endorsed by the original
+authors of these instruments unless explicitly stated. Use of these scoring
+algorithms in clinical or research settings should follow appropriate professional
+standards and ethical guidelines.
+
+Contact information for questions about this license:
+Tyler Muffly, MD
+Email: tyler.muffly@dhha.org
+GitHub: https://github.com/mufflyt/urogynScorer

@@ -5,7 +5,7 @@
 \alias{urogynScorer-package}
 \title{urogynScorer: Calculate Scores for Urogynecology Questionnaires}
 \description{
-Provides functions to calculate scores for common urogynecology questionnaires including the Pelvic Floor Distress Inventory (PFDI-20) and its subscales. Includes validation, scoring algorithms, and utilities for handling missing data according to standard guidelines.
+A comprehensive toolkit for scoring, validating, and analyzing patient-reported outcome measures (PROMs) used in urogynecology and pelvic floor medicine. The package implements standardized scoring algorithms for widely-used questionnaires including: the Pelvic Floor Distress Inventory (PFDI-20) with its subscales (POPDI-6, CRADI-8, UDI-6), the Patient Global Impression of Improvement (PGI-I), and the Sandvik Severity Index for urinary incontinence. Core features include: robust validation of input data, evidence-based handling of missing responses according to instrument-specific guidelines, consistent score scaling and interpretation, detailed logging for quality assurance, and comprehensive documentation with clinical context. All scoring methods follow published validation studies and clinical practice guidelines to ensure reproducibility in research and clinical applications. References: Barber et al. (2005) \doi{10.1016/j.ajog.2004.10.578}; Yalcin & Bump (2003) \doi{10.1067/S0002-9378(03)00598-1}; Sandvik et al. (2000) \doi{10.1002/(SICI)1520-6777(2000)19:2<137::AID-NAU4}3.0.CO;2-G>; Jelovsek & Barber (2006) \doi{10.1016/j.ajog.2006.01.060}.
 
 Provides functions to calculate scores for common urogynecology
 questionnaires including the Pelvic Floor Distress Inventory (PFDI-20)
@@ -16,12 +16,19 @@ utilities for handling missing data according to standard guidelines.
 Useful links:
 \itemize{
   \item \url{https://github.com/mufflyt/urogynScorer}
+  \item \url{https://mufflyt.github.io/urogynScorer/}
   \item Report bugs at \url{https://github.com/mufflyt/urogynScorer/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Tyler Muffly \email{tyler.muffly@dhha.org}
+\strong{Maintainer}: Tyler Muffly \email{tyler.muffly@dhha.org} (\href{https://orcid.org/0000-0002-2044-1693}{ORCID}) [copyright holder]
+
+Other contributors:
+\itemize{
+  \item Denver Health and Hospital Authority [copyright holder]
+  \item University of Colorado School of Medicine [copyright holder]
+}
 
 }
 \keyword{internal}
