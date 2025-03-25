@@ -51,7 +51,7 @@ Suggests:
     rmarkdown (>= 2.0),
     testthat (>= 3.0.0),
     covr (>= 3.5.0),
-    spelling (>= 2.2),
+    spelling,
     devtools (>= 2.4.0),
     dplyr,
     ggplot2 (>= 3.3.0)
