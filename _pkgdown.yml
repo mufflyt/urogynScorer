@@ -7,3 +7,7 @@ reference:
   contents:
   - score_pgii
   - sandvik_severity_index
+  - calculate_pfdi_scores
+- title: Datasets
+  contents:
+  - pfdi_data_minimal
