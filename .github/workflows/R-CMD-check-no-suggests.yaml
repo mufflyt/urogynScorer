@@ -1,0 +1,39 @@
+# Check package without Suggests dependencies
+name: R-CMD-check-no-suggests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  R-CMD-check-no-suggests:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck
+          needs: check
+          dependencies: NA
+
+      - name: Check without Suggests
+        run: |
+          options(crayon.enabled = TRUE)
+          rcmdcheck::rcmdcheck(
+            args = c("--no-manual", "--as-cran", "--no-suggests"), 
+            error_on = "warning", 
+            check_dir = "check"
+          )
+        shell: Rscript {0}

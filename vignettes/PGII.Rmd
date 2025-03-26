@@ -260,18 +260,18 @@ prop_table %>%
 ### 3.2.1 Distribution of Responses
 
 ```{r response-distribution, fig.cap="Distribution of PGI-I responses by treatment group. Lower scores indicate greater improvement."}
-# Create visualization of response distribution
-ggplot(combined_data, aes(x = factor(pgii_score), fill = treatment_group)) +
-  geom_bar(position = "dodge") +
-  scale_fill_viridis_d(option = "D", end = 0.8) +
-  labs(
-    title = "Improvement Rates by Treatment Group Based on PGI-I",
-    subtitle = "Percentage of patients reporting improvement (PGI-I score 1-3)",
-    x = "Treatment Group",
-    y = "Improvement Rate (%)"
-  ) +
-  theme(legend.position = "none") +
-  ylim(0, max(summary_data$improvement_rate + summary_data$se + 15))
+# # Create visualization of response distribution
+# ggplot(combined_data, aes(x = factor(pgii_score), fill = treatment_group)) +
+#   geom_bar(position = "dodge") +
+#   scale_fill_viridis_d(option = "D", end = 0.8) +
+#   labs(
+#     title = "Improvement Rates by Treatment Group Based on PGI-I",
+#     subtitle = "Percentage of patients reporting improvement (PGI-I score 1-3)",
+#     x = "Treatment Group",
+#     y = "Improvement Rate (%)"
+#   ) +
+#   theme(legend.position = "none") +
+#   ylim(0, max(summary_data$improvement_rate + summary_data$se + 15))
 ```
 
 ### 3.2.3 Advanced Visualization: Response Profile
@@ -584,11 +584,12 @@ summary_data <- combined_data %>%
     se = sqrt((improvement_rate/100 * (1-improvement_rate/100)) / n) * 100  # Standard error
   )
 
-# Create bar chart with error bars
-ggplot(summary_data, aes(x = treatment_group, y = improvement_rate, fill = treatment_group)) +
-  geom_col(width = 0.7) +
-  geom_errorbar(aes(ymin = improvement_rate - se, ymax = improvement_rate + se), 
-                width = 0.2) +
-  geom_text(aes(label = paste0(round(improvement_rate, 1), "%\n(n=", n, ")")),
-            vjust = -1.5, size = 4, fontface = "bold") +
-  scale_fill_viridis_d(option = "D", end = 0.8) +
+# # Create bar chart with error bars
+# ggplot(summary_data, aes(x = treatment_group, y = improvement_rate, fill = treatment_group)) +
+#   geom_col(width = 0.7) +
+#   geom_errorbar(aes(ymin = improvement_rate - se, ymax = improvement_rate + se), 
+#                 width = 0.2) +
+#   geom_text(aes(label = paste0(round(improvement_rate, 1), "%\n(n=", n, ")")),
+#             vjust = -1.5, size = 4, fontface = "bold") +
+#   scale_fill_viridis_d(option = "D", end = 0.8) +
+```
