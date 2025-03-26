@@ -16,7 +16,6 @@ utilities for handling missing data according to standard guidelines.
 Useful links:
 \itemize{
   \item \url{https://github.com/mufflyt/urogynScorer}
-  \item \url{https://mufflyt.github.io/urogynScorer/}
   \item Report bugs at \url{https://github.com/mufflyt/urogynScorer/issues}
 }
 
