@@ -26,8 +26,8 @@ Description: A comprehensive toolkit for scoring, validating, and analyzing
     All scoring methods follow published validation studies and clinical practice 
     guidelines to ensure reproducibility in research and clinical applications. 
     References: Barber et al. (2005) <doi:10.1016/j.ajog.2004.10.578>; 
-    Yalcin & Bump (2003) <doi:10.1067/S0002-9378(03)00598-1>; 
-    Sandvik et al. (2000) <doi:10.1002/(SICI)1520-6777(2000)19:2<137::AID-NAU4>3.0.CO;2-G>;
+    Yalcin & Bump (2003) <doi:10.1016/S0002-9378(03)00598-1>; 
+    Sandvik et al. (2000) <doi:10.1002/nau.1041>;
     Jelovsek & Barber (2006) <doi:10.1016/j.ajog.2006.01.060>.
 License: MIT + file LICENSE
 Copyright: 2025 Tyler Muffly and Denver Health and Hospital Authority
