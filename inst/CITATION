@@ -9,7 +9,6 @@ bibentry(
   volume   = 193,
   number   = 1,
   pages    = "103-113",
-  doi      = "10.1016/j.ajog.2004.12.025",
   issn     = "0002-9378",
   publisher = "Elsevier",
   address   = "Cleveland, OH"
@@ -25,7 +24,6 @@ bibentry(
   volume   = 189,
   number   = 1,
   pages    = "98-101",
-  doi      = "10.1067/mob.2003.379",
   issn     = "0002-9378",
   publisher = "Elsevier",
   abstract  = "The purpose of this study was to assess the construct validity of two global assessment questions, the Patient Global Impression of Severity and of Improvement, in female patients with stress urinary incontinence."
@@ -43,7 +41,6 @@ bibentry(
   volume   = 19,
   number   = 2,
   pages    = "137-145",
-  doi      = "10.1002/(SICI)1520-6777(2000)19:2<137::AID-NAU4>3.0.CO;2-G",
   issn     = "1520-6777",
   publisher = "Wiley",
   address   = "Bergen, Norway",
@@ -60,7 +57,6 @@ bibentry(
   volume   = 194,
   number   = 5,
   pages    = "1455-1461",
-  doi      = "10.1016/j.ajog.2006.01.060",
   issn     = "0002-9378",
   publisher = "Elsevier",
   address   = "Cleveland, OH"
@@ -78,7 +74,6 @@ bibentry(
   volume   = 194,
   number   = 5,
   pages    = "1492-1498",
-  doi      = "10.1016/j.ajog.2006.01.076",
   issn     = "0002-9378",
   publisher = "Elsevier"
 )
@@ -101,7 +96,6 @@ bibentry(
   volume   = 30,
   number   = 4,
   pages    = "541-546",
-  doi      = "10.1002/nau.20934",
   publisher = "Wiley",
   issn     = "1520-6777"
 )
@@ -120,7 +114,6 @@ bibentry(
   volume   = 47,
   number   = 6,
   pages    = "497-499",
-  doi      = "10.1136/jech.47.6.497",
   publisher = "BMJ Publishing Group",
   issn     = "0143-005X"
 )
