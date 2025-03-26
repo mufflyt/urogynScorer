@@ -12,15 +12,6 @@ template:
     secondary: "#18bc9c"  # Teal accent
     border-radius: 0.5rem
     btn-border-radius: 0.25rem
-  params:
-    ganalytics: ~  # Add your Google Analytics ID if you have one
-    docsearch:
-      api_key: ~  # Add your Algolia DocSearch API key if you have one
-      index_name: ~  # Add your Algolia index name if you have one
-
-# Custom CSS/JS
-development:
-  mode: auto
 
 # Navbar structure and links
 navbar:
@@ -30,19 +21,17 @@ navbar:
   components:
     intro:
       text: Introduction
-      href: articles/urogynScorer.html
+      href: index.html
     reference:
       text: Functions
       href: reference/index.html
     articles:
       text: Articles
       menu:
-      - text: "Scoring the PFDI-20"
-        href: articles/scoring_pfdi20.html
-      - text: "Using PGI-I Measures"
-        href: articles/using_pgii.html
-      - text: "Sandvik Severity Index"
-        href: articles/sandvik_index.html
+      - text: "Scoring the Pelvic Floor Distress Inventory"
+        href: articles/Scoring_the_Pelvic_Floor_Distress_Inventory.html
+      - text: "Patient Global Impression of Improvement (PGI-I)"
+        href: articles/PGII.html
     github:
       icon: fab fa-github
       href: https://github.com/mufflyt/urogynScorer
@@ -55,12 +44,12 @@ footer:
     right: built_with
   components:
     developed_by: >
-      Developed by [Tyler Muffly](https://github.com/mufflyt) at Denver Health
+      Developed by <a href="https://github.com/mufflyt">Tyler Muffly</a> at Denver Health
 
 # Home page sidebar elements
 home:
   sidebar:
-    structure: [links, license, community, citation, authors, dev]
+    structure: [links, license, community, authors, dev]
   links:
     - text: Report a bug
       href: https://github.com/mufflyt/urogynScorer/issues
@@ -75,29 +64,23 @@ reference:
       - score_pgii
       - sandvik_severity_index
 
-  - title: "PFDI-20 Subscales"
+  - title: "PFDI-20 Functions"
     desc: >
-      Functions for working with PFDI-20 subscale scores
+      Functions for working with PFDI-20 scores
     contents:
-      - matches("pfdi")
-      - matches("popdi")
-      - matches("cradi")
-      - matches("udi")
+      - calculate_pfdi_scores
 
-  - title: "Utility Functions"
-    desc: >
-      Helper functions and utilities
-    contents:
-      - matches("validate")
-      - matches("extract")
-      - matches("calculate")
-
-  - title: "Datasets"
+  - title: "Data"
     desc: >
       Example datasets included with the package
     contents:
-      - matches("data")
-      - matches("_data")
+      - pfdi_data_minimal
+
+  - title: "Utilities"
+    desc: >
+      Helper functions and utilities
+    contents:
+      - pipe
 
 # News section
 news:
@@ -105,24 +88,10 @@ news:
     - text: "Version 0.2.0"
       href: https://github.com/mufflyt/urogynScorer/releases/tag/v0.2.0
 
-# Articles
+# Articles organization
 articles:
-  - title: "Getting Started"
-    desc: >
-      Introduction to the urogynScorer package
+  - title: "All Articles"
+    desc: ~
     contents:
-      - urogynScorer
-
-  - title: "Scoring Guides"
-    desc: >
-      Detailed guides on scoring specific questionnaires
-    contents:
-      - scoring_pfdi20
-      - using_pgii
-      - sandvik_index
-
-  - title: "Clinical Applications"
-    desc: >
-      Practical applications in clinical settings
-    contents:
-      - clinical_interpretation
+      - PGII
+      - Scoring_the_Pelvic_Floor_Distress_Inventory
