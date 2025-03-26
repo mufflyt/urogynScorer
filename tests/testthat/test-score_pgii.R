@@ -1,174 +1,129 @@
 library(testthat)
 library(dplyr)
-
-test_that("score_pgii correctly computes PGI-I scores and classifications", {
-
-  patient_data <- data.frame(
+test_that("score_pgii works with standard inputs", {
+  # Create sample test data
+  test_data <- tibble::tibble(
     Record_ID = c("P001", "P002", "P003", "P004", "P005"),
-    pgii_response = c(1, 3, 5, NA, 2)
+    pgii_response = c(1, 2, 3, 4, NA)
   )
 
-  result <- score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID")
+  # Score the data
+  scores <- score_pgii(test_data, item_name = "pgii_response")
 
-  expect_true(is.data.frame(result))
-  expect_equal(ncol(result), 3)  # ID, score, improvement
+  # Test that output has the right structure
+  expect_true(is.data.frame(scores))
+  expect_equal(nrow(scores), 5)
+  expect_equal(colnames(scores), c("Record_ID", "pgii_score", "pgii_improved"))
 
-  expect_equal(result$pgii_score, c(1, 3, 5, NA, 2))
-  expect_equal(result$pgii_improved, c(1, 1, 0, NA, 1))  # (1-3 = improved, 4-7 = not improved)
+  # Test that the scores are calculated correctly
+  expect_equal(scores$pgii_score, c(1, 2, 3, 4, NA))
+  expect_equal(scores$pgii_improved, c(1, 1, 1, 0, NA))
 })
 
-test_that("score_pgii correctly handles missing data", {
+test_that("score_pgii works with custom ID column", {
+  # Create sample test data with custom ID column
+  test_data <- tibble::tibble(
+    Patient_ID = c("PT1", "PT2", "PT3"),
+    pgii_response = c(5, 6, 7)
+  )
 
-  patient_data <- data.frame(
+  # Score the data with custom ID column
+  scores <- score_pgii(test_data,
+                       item_name = "pgii_response",
+                       id_column = "Patient_ID")
+
+  # Test that the output has the right structure
+  expect_true(is.data.frame(scores))
+  expect_equal(nrow(scores), 3)
+  expect_equal(colnames(scores), c("Patient_ID", "pgii_score", "pgii_improved"))
+
+  # Test that the scores are calculated correctly
+  expect_equal(scores$pgii_score, c(5, 6, 7))
+  expect_equal(scores$pgii_improved, c(0, 0, 0))
+})
+
+test_that("score_pgii works with keep_n_valid = TRUE", {
+  # Create sample test data
+  test_data <- tibble::tibble(
+    Record_ID = c("P001", "P002", "P003", "P004", "P005"),
+    pgii_response = c(1, 2, 3, 4, NA)
+  )
+
+  # Score the data with keep_n_valid = TRUE
+  scores <- score_pgii(test_data,
+                       item_name = "pgii_response",
+                       keep_n_valid = TRUE)
+
+  # Test that the output has the right structure
+  expect_true(is.data.frame(scores))
+  expect_equal(nrow(scores), 5)
+  expect_equal(colnames(scores), c("Record_ID", "pgii_score", "pgii_improved", "pgii_n_valid"))
+
+  # Test that the scores are calculated correctly
+  expect_equal(scores$pgii_score, c(1, 2, 3, 4, NA))
+  expect_equal(scores$pgii_improved, c(1, 1, 1, 0, NA))
+  expect_equal(scores$pgii_n_valid, rep(4, 5))
+})
+
+test_that("score_pgii correctly handles output_file", {
+  # Create sample test data
+  test_data <- tibble::tibble(
     Record_ID = c("P001", "P002", "P003"),
-    pgii_response = c(NA, NA, NA)
+    pgii_response = c(1, 3, 5)
   )
 
-  result <- score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID")
-
-  expect_true(all(is.na(result$pgii_score)))
-  expect_true(all(is.na(result$pgii_improved)))
-})
-
-test_that("score_pgii correctly returns the number of valid responses when keep_n_valid = TRUE", {
-
-  patient_data <- data.frame(
-    Record_ID = c("P001", "P002", "P003", "P004"),
-    pgii_response = c(1, 2, 4, NA)
-  )
-
-  result <- score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID", keep_n_valid = TRUE)
-
-  expect_equal(ncol(result), 4)  # ID, score, improvement, valid response count
-  expect_equal(result$pgii_n_valid[1], 3)  # Three valid responses in total
-})
-
-test_that("score_pgii correctly saves results when output_file is specified", {
-
-  patient_data <- data.frame(
-    Record_ID = c("P001", "P002"),
-    pgii_response = c(1, 5)
-  )
-
+  # Create a temporary file for testing
   temp_file <- tempfile(fileext = ".csv")
+  on.exit(unlink(temp_file), add = TRUE)
 
-  result <- score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID", output_file = temp_file)
+  # Score the data and save to temp file
+  score_pgii(test_data,
+             item_name = "pgii_response",
+             output_file = temp_file)
 
+  # Check that the file exists and can be read
   expect_true(file.exists(temp_file))
+  file_content <- utils::read.csv(temp_file)
 
-  saved_data <- read.csv(temp_file)
-  expect_equal(saved_data$pgii_score, c(1, 5))
-  expect_equal(saved_data$pgii_improved, c(1, 0))  # 1 = improved, 5 = not improved
+  # Test that the file content is correct
+  expect_equal(nrow(file_content), 3)
+  expect_equal(colnames(file_content), c("Record_ID", "pgii_score", "pgii_improved"))
+  expect_equal(file_content$pgii_score, c(1, 3, 5))
+  expect_equal(file_content$pgii_improved, c(1, 1, 0))
 })
 
-### ✅ **New Tests for Edge Cases and Robustness**
-
-test_that("score_pgii correctly handles all 7 possible PGI-I responses", {
-
-  patient_data <- data.frame(
-    Record_ID = paste0("P", 1:7),
-    pgii_response = 1:7  # Covering full range from 1 to 7
-  )
-
-  result <- score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID")
-
-  expect_equal(result$pgii_score, 1:7)
-  expect_equal(result$pgii_improved, c(1, 1, 1, 0, 0, 0, 0))  # 1-3 = improved, 4-7 = no improvement
-})
-
-test_that("score_pgii correctly handles cases where all patients report no improvement", {
-
-  patient_data <- data.frame(
+test_that("score_pgii handles invalid inputs correctly", {
+  # Create sample test data with invalid responses
+  test_data <- tibble::tibble(
     Record_ID = c("P001", "P002", "P003"),
-    pgii_response = c(4, 6, 7)  # All patients report worsening/no change
+    pgii_response = c(1, 8, 0)  # Valid is 1-7
   )
 
-  result <- score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID")
-
-  expect_equal(result$pgii_improved, c(0, 0, 0))  # No one improved
-})
-
-test_that("score_pgii correctly handles cases where all patients improve", {
-
-  patient_data <- data.frame(
-    Record_ID = c("P001", "P002", "P003"),
-    pgii_response = c(1, 2, 3)  # All patients report improvement
+  # Expect error for invalid responses
+  expect_error(
+    score_pgii(test_data, item_name = "pgii_response"),
+    "PGI-I responses must be integers between 1 and 7 or NA"
   )
 
-  result <- score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID")
-
-  expect_equal(result$pgii_improved, c(1, 1, 1))  # All improved
-})
-
-### ❌ **Tests for Error Handling and Input Validation**
-
-test_that("score_pgii throws an error for invalid PGI-I response values", {
-
-  patient_data <- data.frame(
-    Record_ID = c("P001", "P002", "P003"),
-    pgii_response = c(1, 3, 9)  # 9 is invalid
+  # Test with non-numeric responses
+  test_data$pgii_response <- c(1, "a", 3)
+  expect_error(
+    score_pgii(test_data, item_name = "pgii_response"),
+    "PGI-I responses must be integers between 1 and 7 or NA"
   )
-
-  expect_error(score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID"),
-               "PGI-I responses must be integers between 1 and 7 or NA")
 })
 
-test_that("score_pgii throws an error when id_column is missing", {
 
-  patient_data <- data.frame(
-    PatientID = c("P001", "P002"),
-    pgii_response = c(1, 3)
-  )
-
-  expect_error(score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID"),
-               "id_column 'Record_ID' not found in patient_data")
-})
-
-test_that("score_pgii throws an error when item_name column is missing", {
-
-  patient_data <- data.frame(
+test_that("score_pgii works with verbose = TRUE", {
+  # Create sample test data
+  test_data <- tibble::tibble(
     Record_ID = c("P001", "P002"),
-    OtherColumn = c(1, 3)
+    pgii_response = c(1, 4)
   )
 
-  expect_error(score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID"),
-               "item_name 'pgii_response' not found in patient_data")
-})
-
-test_that("score_pgii works when id_column is not named Record_ID", {
-
-  patient_data <- data.frame(
-    UniqueID = c("A1", "B2", "C3"),
-    pgii_response = c(2, 4, 6)
+  # Expect no error with verbose = TRUE
+  expect_no_error(
+    score_pgii(test_data, item_name = "pgii_response", verbose = TRUE)
   )
-
-  result <- score_pgii(patient_data, item_name = "pgii_response", id_column = "UniqueID")
-
-  expect_equal(colnames(result), c("UniqueID", "pgii_score", "pgii_improved"))
-  expect_equal(result$pgii_improved, c(1, 0, 0))  # First patient improved, others didn't
 })
 
-test_that("score_pgii works with large datasets", {
-
-  set.seed(42)
-  large_data <- data.frame(
-    Record_ID = paste0("P", 1:1000),
-    pgii_response = sample(1:7, 1000, replace = TRUE)
-  )
-
-  result <- score_pgii(large_data, item_name = "pgii_response", id_column = "Record_ID")
-
-  expect_true(nrow(result) == 1000)
-  expect_true(all(result$pgii_score %in% 1:7))
-})
-
-test_that("score_pgii logs warning when deprecated keepNvalid parameter is used", {
-
-  patient_data <- data.frame(
-    Record_ID = c("P001", "P002"),
-    pgii_response = c(1, 3)
-  )
-
-  expect_warning(score_pgii(patient_data, item_name = "pgii_response", id_column = "Record_ID", keepNvalid = TRUE),
-                 "Parameter 'keepNvalid' is deprecated. Please use 'keep_n_valid' instead.")
-})

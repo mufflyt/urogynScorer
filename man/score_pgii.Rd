@@ -9,7 +9,6 @@ score_pgii(
   item_name,
   id_column = "Record_ID",
   keep_n_valid = FALSE,
-  keepNvalid = NULL,
   verbose = FALSE,
   output_file = NULL
 )
@@ -18,29 +17,27 @@ score_pgii(
 \item{patient_data}{A data frame containing the PGI-I response variable.}
 
 \item{item_name}{The column name in the data frame that contains the PGI-I response.
-This must be a valid column in \code{patient_data} containing values 1-7 or NA.}
+This must be a valid column in patient_data containing values 1-7 or NA.}
 
 \item{id_column}{Character string specifying the column name containing patient
-identifiers. Default is \code{"Record_ID"}.}
+identifiers. Default is "Record_ID".}
 
 \item{keep_n_valid}{Logical, whether to return the number of valid, non-missing
-responses in the output. Default is \code{FALSE}.}
-
-\item{keepNvalid}{Deprecated. Use \code{keep_n_valid} instead.}
+responses in the output. Default is FALSE.}
 
 \item{verbose}{Logical indicating whether to print detailed logging messages.
-Default is \code{FALSE}.}
+Default is FALSE.}
 
 \item{output_file}{Character string specifying the path to save the results.
-If \code{NULL} (default), results are not saved to a file.}
+If NULL (default), results are not saved to a file.}
 }
 \value{
-A tibble containing:
+A data frame containing:
 \itemize{
-\item The patient identifier column (as specified by \code{id_column})
 \item \strong{pgii_score} - The original PGI-I response score (1-7 or NA)
 \item \strong{pgii_improved} - A binary variable indicating if the patient
-reported improvement (1 = improvement \link{scores 1-3}, 0 = no improvement/worsening \link{scores 4-7})
+reported improvement (scores between 1 and 3 are considered improvement,
+scores between 4 and 7 are considered no improvement/worsening)
 \item \strong{pgii_n_valid} - (Optional) The number of valid responses
 }
 }
@@ -72,7 +69,7 @@ and the binary improvement indicator.
 }
 
 \examples{
-# Example usage:
+# Example 1: Basic usage with default parameters
 patient_data <- data.frame(
   Record_ID = c("P001", "P002", "P003", "P004"),
   pgii_response = c(1, 3, 5, NA)
@@ -86,6 +83,37 @@ pgii_scores <- score_pgii(
   verbose = TRUE
 )
 print(pgii_scores)
+
+# Example 2: With custom ID column and including count of valid responses
+patient_data <- data.frame(
+  PatientID = c("A", "B", "C", "D", "E"),
+  Treatment = c("Drug", "Placebo", "Drug", "Drug", "Placebo"),
+  GlobalImpression = c(2, 4, 1, 3, 6)
+)
+
+pgii_scores <- score_pgii(
+  patient_data = patient_data,
+  item_name = "GlobalImpression",
+  id_column = "PatientID",
+  keep_n_valid = TRUE,
+  verbose = TRUE
+)
+print(pgii_scores)
+
+# Example 3: Save results to file
+patient_data <- data.frame(
+  Record_ID = 1:5,
+  pgii_response = c(2, 3, 4, 1, NA)
+)
+
+temp_file <- tempfile(fileext = ".csv")
+pgii_scores <- score_pgii(
+  patient_data = patient_data,
+  item_name = "pgii_response",
+  output_file = temp_file,
+  verbose = TRUE
+)
+# Results saved to temp_file
 
 }
 \references{

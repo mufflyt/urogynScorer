@@ -27,7 +27,6 @@ Useful links:
 Other contributors:
 \itemize{
   \item Denver Health and Hospital Authority [copyright holder]
-  \item University of Colorado School of Medicine [copyright holder]
 }
 
 }
