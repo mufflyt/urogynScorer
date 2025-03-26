@@ -102,6 +102,7 @@
 #' @importFrom utils write.csv
 #' @importFrom logger log_info log_error log_debug log_warn log_threshold
 #' @importFrom assertthat assert_that
+#' @importFrom rlang .data
 #'
 #' @export
 score_pgii <- function(patient_data,
@@ -230,9 +231,9 @@ calculate_pgii_scores <- function(pgii_data, id_column, item_name, keep_n_valid)
   pgii_results <- dplyr::mutate(
     pgii_results,
     pgii_improved = ifelse(
-      is.na(pgii_score),
+      is.na(.data$pgii_score),  # Use .data pronoun to reference the column
       NA,
-      ifelse(pgii_score <= 3, 1, 0)
+      ifelse(.data$pgii_score <= 3, 1, 0)  # Use .data pronoun here too
     )
   )
 
