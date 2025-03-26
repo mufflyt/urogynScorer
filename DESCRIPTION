@@ -63,7 +63,7 @@ LazyData: true
 Depends:
     R (>= 3.5.0)
 VignetteBuilder: knitr
-URL: https://github.com/mufflyt/urogynScorer, https://mufflyt.github.io/urogynScorer/
+URL: https://github.com/mufflyt/urogynScorer
 BugReports: https://github.com/mufflyt/urogynScorer/issues
 Classification/MSC: 62P10, 62P15, 92C50
 Collate:

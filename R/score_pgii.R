@@ -146,3 +146,101 @@ score_pgii <- function(patient_data,
   # Return results as tibble
   return(tibble::as_tibble(pgii_results))
 }
+
+#' Validate inputs for PGI-I score calculation
+#'
+#' @param patient_data Data frame containing patient responses
+#' @param item_name Column name for PGI-I responses
+#' @param id_column Column name for patient identifiers
+#'
+#' @return NULL invisibly
+#' @noRd
+validate_pgii_inputs <- function(patient_data, item_name, id_column) {
+  logger::log_debug("Validating PGI-I input parameters")
+
+  # Check if patient_data is a data frame
+  assertthat::assert_that(
+    is.data.frame(patient_data),
+    msg = "patient_data must be a data frame"
+  )
+
+  # Check if id_column exists in patient_data
+  assertthat::assert_that(
+    id_column %in% colnames(patient_data),
+    msg = paste0("id_column '", id_column, "' not found in patient_data")
+  )
+
+  # Check if item_name exists in patient_data
+  assertthat::assert_that(
+    item_name %in% colnames(patient_data),
+    msg = paste0("item_name '", item_name, "' not found in patient_data")
+  )
+
+  # Check if PGI-I responses are valid (1-7 or NA)
+  responses <- patient_data[[item_name]]
+  valid_responses <- all(is.na(responses) |
+                           (is.numeric(responses) & responses %in% 1:7))
+
+  assertthat::assert_that(
+    valid_responses,
+    msg = "PGI-I responses must be integers between 1 and 7 or NA"
+  )
+
+  logger::log_info("Input validation successful")
+  return(invisible(NULL))
+}
+
+#' Extract relevant data for PGI-I calculation
+#'
+#' @param patient_data Data frame containing patient data
+#' @param id_column Column name for patient identifiers
+#' @param item_name Column name for PGI-I responses
+#'
+#' @return A data frame with patient IDs and PGI-I responses
+#' @noRd
+extract_pgii_data <- function(patient_data, id_column, item_name) {
+  logger::log_debug("Extracting PGI-I data from patient_data")
+
+  # Select only the required columns
+  pgii_data <- dplyr::select(patient_data, dplyr::all_of(c(id_column, item_name)))
+
+  logger::log_info("Extracted data for %d patients", nrow(pgii_data))
+  return(pgii_data)
+}
+
+#' Calculate PGI-I scores and improvement indicators
+#'
+#' @param pgii_data Data frame with patient IDs and PGI-I responses
+#' @param id_column Column name for patient identifiers
+#' @param item_name Column name for PGI-I responses
+#' @param keep_n_valid Whether to include count of valid responses in output
+#'
+#' @return A data frame with PGI-I scores and indicators
+#' @noRd
+calculate_pgii_scores <- function(pgii_data, id_column, item_name, keep_n_valid) {
+  logger::log_debug("Calculating PGI-I scores and improvement indicators")
+
+  # Create a new data frame with results
+  pgii_results <- pgii_data
+
+  # Rename PGI-I response column to pgii_score
+  colnames(pgii_results)[colnames(pgii_results) == item_name] <- "pgii_score"
+
+  # Add binary improvement indicator (1 = improved [1-3], 0 = not improved [4-7])
+  pgii_results <- dplyr::mutate(
+    pgii_results,
+    pgii_improved = ifelse(
+      is.na(pgii_score),
+      NA,
+      ifelse(pgii_score <= 3, 1, 0)
+    )
+  )
+
+  # Add count of valid responses if requested
+  if (keep_n_valid) {
+    n_valid <- sum(!is.na(pgii_results$pgii_score))
+    pgii_results$pgii_n_valid <- n_valid
+  }
+
+  return(pgii_results)
+}

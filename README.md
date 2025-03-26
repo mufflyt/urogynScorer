@@ -12,7 +12,6 @@ Tyler Muffly, MD
 ![R-CMD-check](https://github.com/mufflyt/urogynScorer/workflows/R-CMD-check/badge.svg)
 ![CRAN status](https://www.r-pkg.org/badges/version/urogynScorer)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)
-[![DOI](https://zenodo.org/badge/DOI/zenodo.placeholder.svg)](https://zenodo.org/placeholder)
 <!-- badges: end -->
 
 ## Overview
@@ -189,22 +188,19 @@ If you use urogynScorer in your research, please cite:
   condition-specific quality-of-life questionnaires for women with
   pelvic floor disorders (PFDI-20 and PFIQ-7). *American Journal of
   Obstetrics and Gynecology, 193*(1), 103-113.
-  <https://doi.org/10.1016/j.ajog.2004.12.025>
 
 - **Yalcin I, Bump RC** (2003). Validation of two global impression
   questionnaires for incontinence. *American Journal of Obstetrics and
-  Gynecology, 189*(1), 98-101. <https://doi.org/10.1067/mob.2003.379>
+  Gynecology, 189*(1), 98-101.
 
 - **Sandvik H, Seim A, Vanvik A, Hunskaar S** (2000). A severity index
   for epidemiological surveys of female urinary incontinence: Comparison
   with 48-hour pad-weighing tests. *Neurourology and Urodynamics,
   19*(2), 137-145.
-  <https://doi.org/10.1002/(SICI)1520-6777(2000)19:2>\<137::AID-NAU4\>3.0.CO;2-G
 
 - **Jelovsek JE, Barber MD** (2006). Patient-reported outcome measures
   in pelvic floor disorders. *American Journal of Obstetrics and
   Gynecology, 194*(5), 1455-1461.
-  <https://doi.org/10.1016/j.ajog.2006.01.060>
 
 ## Contributing
 
