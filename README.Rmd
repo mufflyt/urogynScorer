@@ -24,6 +24,8 @@ knitr::opts_chunk$set(
 ![R-CMD-check](https://github.com/mufflyt/urogynScorer/workflows/R-CMD-check/badge.svg)
 ![CRAN status](https://www.r-pkg.org/badges/version/urogynScorer)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)
+[![R-CMD-check](https://github.com/mufflyt/urogynScorer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mufflyt/urogynScorer/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/mufflyt/urogynScorer/graph/badge.svg)](https://app.codecov.io/gh/mufflyt/urogynScorer)
 <!-- badges: end -->
 
 ## Overview
