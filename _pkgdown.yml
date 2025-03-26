@@ -56,13 +56,15 @@ home:
 
 # Reference manual organization
 reference:
-  - title: "Main Scoring Functions"
-    desc: >
-      Primary functions for scoring urogynecology questionnaires
-    contents:
-      - score_pfdi
-      - score_pgii
-      - sandvik_severity_index
+- title: "Scoring Functions"
+  contents:
+  - starts_with("score_")
+- title: "Calculate Functions"
+  contents:
+  - starts_with("calculate_")
+- title: "Data"
+  contents:
+  - matches("data")
 
   - title: "PFDI-20 Functions"
     desc: >
