@@ -1,7 +1,7 @@
 urogynScorer: Urogynecology Questionnaire Scoring Package
 ================
 Tyler Muffly, MD
-2025-03-25
+2025-03-26
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -214,3 +214,10 @@ MIT + file LICENSE
 ------------------------------------------------------------------------
 
 © 2025 Tyler Muffly,MD and Denver Health and Hospital Authority
+
+## Code of Conduct
+
+Please note that the urogynScorer project is released with a
+[Contributor Code of
+Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
