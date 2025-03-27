@@ -1,6 +1,7 @@
 CMD
 CRADI
 Centricity
+Codecov
 Colorectal
 Complementarity
 Hunskaar
@@ -24,11 +25,13 @@ Vanvik
 Yalcin
 ajog
 al
+cradi
 doi
 et
 magrittr
 nau
 pgii
+popdi
 pre
 reproducibility
 responders
@@ -38,4 +41,5 @@ subscales
 testthat
 tibble
 tidyverse
+udi
 urogynecology

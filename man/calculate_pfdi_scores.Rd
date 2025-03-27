@@ -2,96 +2,89 @@
 % Please edit documentation in R/score_pfdi.R
 \name{calculate_pfdi_scores}
 \alias{calculate_pfdi_scores}
-\title{Calculate PFDI-20 scores and subscales}
+\title{Calculate PFDI Scores from Minimal Dataset}
 \usage{
 calculate_pfdi_scores(
-  patient_data,
+  input_data = NULL,
   id_column = "Record_ID",
   missing_threshold = 0.5,
   verbose = FALSE,
-  output_file = NULL
+  output_file = NULL,
+  scale_factor = 25,
+  patient_data = NULL
 )
 }
 \arguments{
-\item{patient_data}{A data frame containing PFDI-20 questionnaire responses.
-Must include columns PFDI-1 through PFDI-20 or the explicitly named subscale
-items (PFDI-POPDI-1 through PFDI-POPDI-6, PFDI-CRADI-1 through PFDI-CRADI-8,
-and PFDI-UDI-1 through PFDI-UDI-6).}
+\item{input_data}{A data frame containing PFDI questionnaire responses.}
 
 \item{id_column}{Character string specifying the column name containing patient
 identifiers. Default is "Record_ID".}
 
 \item{missing_threshold}{Numeric value between 0 and 1 specifying the maximum
-proportion of missing values allowed per subscale before the score is considered
-invalid. Default is 0.5 (50\%).}
+proportion of missing values allowed per subscale. Default is 0.5 (50\%).}
 
 \item{verbose}{Logical indicating whether to print detailed logging messages.
 Default is FALSE.}
 
 \item{output_file}{Character string specifying the path to save the results.
 If NULL (default), results are not saved to a file.}
+
+\item{scale_factor}{Numeric. The scaling factor to apply to the scores.
+Default is 25.}
+
+\item{patient_data}{Deprecated. Use input_data instead. A data frame containing PFDI questionnaire responses.}
 }
 \value{
 A tibble containing patient IDs and calculated scores for PFDI-20 total
 and the three subscales (POPDI-6, CRADI-8, and UDI-6).
 }
 \description{
-This function calculates the Pelvic Floor Distress Inventory (PFDI-20) total
-score and subscale scores (POPDI-6, CRADI-8, and UDI-6) from raw questionnaire
-data. The function includes input validation, handles missing values according
-to scoring guidelines, and provides detailed logging.
+Calculates Pelvic Floor Distress Inventory (PFDI-20) total score and subscale scores
+(POPDI-6, CRADI-8, and UDI-6) from raw questionnaire data.
+}
+\details{
+The PFDI-20 consists of three subscales: POPDI-6 (questions 1-6), CRADI-8
+(questions 7-14), and UDI-6 (questions 15-20). Each question uses a 0-4 scale.
+The function calculates the mean score for each subscale, multiplies by the scale
+factor (default: 25) to get a 0-100 scale, and sums the three subscale scores to
+get the PFDI-20 total (0-300 scale).
+
+The function supports multiple column naming conventions including standard format
+(popdi_q*, cradi_q*, udi_q*), numeric format (PFDI-1 through PFDI-20), subscale-specific
+format (PFDI-POPDI-*, etc.), and dot notation (PFDI.1, etc.).
 }
 \examples{
-# Example 1: Create sample data with all required PFDI columns
-pfdi_cols <- c(
-  "PFDI-1", "PFDI-2", "PFDI-3", "PFDI-4", "PFDI-5", "PFDI-6",
-  "PFDI-7", "PFDI-8", "PFDI-9", "PFDI-10", "PFDI-11", "PFDI-12",
-  "PFDI-13", "PFDI-14", "PFDI-15", "PFDI-16", "PFDI-17", "PFDI-18",
-  "PFDI-19", "PFDI-20"
+# Example 1: Basic usage with standard column names
+patient_data <- data.frame(
+  Record_ID = 1,
+  popdi_q1 = 2, popdi_q2 = 1, popdi_q3 = 0,
+  cradi_q1 = 1, cradi_q2 = 0, cradi_q3 = 2,
+  udi_q1 = 3, udi_q2 = 1, udi_q3 = 0
 )
-
-# Create data with exactly 3 patients, all 20 PFDI questions for each
-sample_data <- data.frame(Record_ID = 1:3)
-for (col in pfdi_cols) {
-  sample_data[[col]] <- sample(0:4, 3, replace = TRUE)
-}
-
-# Example 1: Basic usage with default parameters
 pfdi_scores <- calculate_pfdi_scores(
-  patient_data = sample_data,
-  id_column = "Record_ID",
-  missing_threshold = 0.5,
+  input_data = patient_data,
+  scale_factor = 25,
   verbose = TRUE
 )
-print(pfdi_scores)
 
-# Example 2: Custom ID column and stricter missing value threshold
-# Add a new ID column
-sample_data$MRN <- sample_data$Record_ID + 1000
-
-# Calculate with custom ID column
-pfdi_scores <- calculate_pfdi_scores(
-  patient_data = sample_data,
-  id_column = "MRN",
-  missing_threshold = 0.25,
-  verbose = TRUE
+# Example 2: With alternative column names
+alt_data <- data.frame(
+  Patient_ID = "PT001",
+  "PFDI-1" = 2, "PFDI-2" = 1, "PFDI-3" = 0,
+  "PFDI-7" = 1, "PFDI-8" = 0, "PFDI-9" = 2,
+  "PFDI-15" = 3, "PFDI-16" = 1, "PFDI-17" = 0
 )
-print(pfdi_scores)
-
-# Example 3: Handle missing values
-# Create data with some missing values
-missing_data <- sample_data
-missing_data[1, "PFDI-1"] <- NA
-missing_data[2, "PFDI-5"] <- NA
-missing_data[2, "PFDI-10"] <- NA
-
-# Calculate with default missing threshold
 pfdi_scores <- calculate_pfdi_scores(
-  patient_data = missing_data,
-  id_column = "Record_ID",
-  missing_threshold = 0.5,
-  verbose = TRUE
+  input_data = alt_data,
+  id_column = "Patient_ID",
+  missing_threshold = 0.5
 )
-print(pfdi_scores)
+
+# Example 3: With output file
+temp_file <- tempfile(fileext = ".csv")
+pfdi_scores <- calculate_pfdi_scores(
+  input_data = patient_data,
+  output_file = temp_file
+)
 
 }

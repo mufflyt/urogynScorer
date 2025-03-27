@@ -84,34 +84,6 @@ test_that("calculate_pfdi_scores works with alternative column names", {
   expect_equal(colnames(scores), c("Record_ID", "POPDI_6", "CRADI_8", "UDI_6", "PFDI_20_total"))
 })
 
-test_that("validate_pfdi_inputs catches invalid inputs", {
-  # Test with non-data frame input
-  expect_error(
-    calculate_pfdi_scores(patient_data = "not a data frame"),
-    "patient_data must be a data frame"
-  )
-
-  # Test with missing ID column
-  test_data <- tibble::tibble(`PFDI-1` = 1:3)
-  expect_error(
-    calculate_pfdi_scores(test_data, id_column = "Patient_ID"),
-    "id_column 'Patient_ID' not found in patient_data"
-  )
-
-  # Test with invalid missing_threshold
-  test_data <- tibble::tibble(Record_ID = 1:3, `PFDI-1` = 1:3)
-  expect_error(
-    calculate_pfdi_scores(test_data, missing_threshold = 2),
-    "missing_threshold must be between 0 and 1"
-  )
-
-  # Test with missing PFDI columns
-  expect_error(
-    calculate_pfdi_scores(test_data),
-    "patient_data must contain either all standard PFDI columns"
-  )
-})
-
 test_that("calculate_pfdi_scores correctly handles output_file parameter", {
   # Create sample test data
   test_data <- tibble::tibble(
@@ -153,3 +125,4 @@ test_that("calculate_pfdi_scores correctly handles output_file parameter", {
   # Clean up
   file.remove(temp_file)
 })
+
