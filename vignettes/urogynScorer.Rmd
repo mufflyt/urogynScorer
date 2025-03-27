@@ -1,0 +1,141 @@
+---
+title: "Getting Started with urogynScorer"
+author: "Tyler Muffly, MD"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with urogynScorer}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Introduction
+
+The `urogynScorer` package provides tools for scoring standardized questionnaires used in urogynecology and pelvic floor medicine. This vignette serves as a general introduction and demonstrates the basic usage of the package's primary functions.
+
+```{r setup}
+library(urogynScorer)
+library(dplyr)
+```
+
+## Key Features
+
+- Standardized scoring of validated urogynecology questionnaires
+- Robust validation of input data
+- Detailed logging capabilities
+- Consistent handling of missing values
+- Support for multiple column naming conventions
+
+## Available Instruments
+
+The package currently supports scoring for the following instruments:
+
+1. **Pelvic Floor Distress Inventory (PFDI-20)** - Including its subscales:
+   - Pelvic Organ Prolapse Distress Inventory (POPDI-6)
+   - Colorectal-Anal Distress Inventory (CRADI-8)
+   - Urinary Distress Inventory (UDI-6)
+2. **Patient Global Impression of Improvement (PGI-I)**
+3. **Sandvik Severity Index** for urinary incontinence
+
+## Example 1: Scoring the PFDI-20
+
+The PFDI-20 measures pelvic floor symptoms across three domains. Let's look at an example of scoring this questionnaire:
+
+```{r pfdi-example}
+# Load the sample PFDI data included with the package
+data("pfdi_data_minimal")
+
+# Examine the structure of the data
+str(pfdi_data_minimal)
+
+# Calculate PFDI-20 scores
+pfdi_results <- calculate_pfdi_scores(
+  input_data = pfdi_data_minimal,
+  id_column = "Record_ID",
+  missing_threshold = 0.5,  # Allow up to 50% missing values per subscale
+  verbose = FALSE
+)
+
+# View the first few results
+head(pfdi_results)
+```
+
+## Example 2: Scoring the PGI-I
+
+The Patient Global Impression of Improvement (PGI-I) scale measures subjective improvement following treatment:
+
+```{r pgii-example}
+# Create sample PGI-I data
+pgii_data <- data.frame(
+  Record_ID = c("PT001", "PT002", "PT003", "PT004", "PT005"),
+  pgii_response = c(1, 2, 3, 4, NA)  # 1=Very much better, 7=Very much worse
+)
+
+# Score PGI-I responses
+pgii_results <- score_pgii(
+  patient_data = pgii_data,
+  item_name = "pgii_response",
+  keep_n_valid = TRUE,
+  verbose = FALSE
+)
+
+# View results
+pgii_results
+```
+
+## Example 3: Calculating Sandvik Severity Index
+
+The Sandvik Severity Index measures urinary incontinence severity:
+
+```{r sandvik-example}
+# Create sample frequency and amount data
+frequency <- c(0, 1, 2, 3, 4)  # 0=Never to 4=Daily
+amount <- c(1, 2, 3, 2, 1)     # 1=Drops to 3=Large amounts
+
+# Calculate Sandvik Severity Index
+sandvik_results <- sandvik_severity_index(frequency, amount)
+
+# View results
+sandvik_results
+```
+
+## Working with Your Own Data
+
+When working with your own data, you'll need to ensure the column names match the expected format or use the appropriate parameters to specify your column names.
+
+### Tips for PFDI-20 Scoring
+
+The `calculate_pfdi_scores()` function supports several column naming conventions, including:
+
+- Standard format: `popdi_q*`, `cradi_q*`, `udi_q*`
+- Numeric format: `PFDI-1` through `PFDI-20`
+- Subscale-specific format: `PFDI-POPDI-*`, `PFDI-CRADI-*`, `PFDI-UDI-*`
+- Dot notation: `PFDI.1`, `PFDI.2`, etc.
+
+### Tips for PGI-I Scoring
+
+The PGI-I responses must be integers between 1 and 7, where:
+- 1: Very much better
+- 2: Much better
+- 3: A little better
+- 4: No change
+- 5: A little worse
+- 6: Much worse
+- 7: Very much worse
+
+The `score_pgii()` function adds a binary improvement indicator (1 = improved [1-3], 0 = not improved [4-7]).
+
+## Conclusion
+
+The `urogynScorer` package provides a standardized approach to scoring common urogynecology questionnaires, ensuring consistent and reproducible results in both research and clinical applications.
+
+For more detailed information on each scoring function, please see the dedicated vignettes or the function documentation.

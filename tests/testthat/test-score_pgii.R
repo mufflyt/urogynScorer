@@ -127,3 +127,59 @@ test_that("score_pgii works with verbose = TRUE", {
   )
 })
 
+
+####
+
+test_that("score_pgii handles various input edge cases correctly", {
+  # Test with empty data frame
+  empty_df <- data.frame(Record_ID = character(0), pgii_response = numeric(0))
+  expect_error(score_pgii(empty_df, "pgii_response"), NA)
+
+  # Test with all missing values
+  all_missing_df <- data.frame(
+    Record_ID = c("P001", "P002", "P003"),
+    pgii_response = c(NA, NA, NA)
+  )
+  result <- score_pgii(all_missing_df, "pgii_response")
+  expect_equal(nrow(result), 3)
+  expect_true(all(is.na(result$pgii_score)))
+  expect_true(all(is.na(result$pgii_improved)))
+
+  # Test with boundary values (1 and 7)
+  boundary_df <- data.frame(
+    Record_ID = c("P001", "P002"),
+    pgii_response = c(1, 7)
+  )
+  result <- score_pgii(boundary_df, "pgii_response")
+  expect_equal(result$pgii_improved, c(1, 0))
+
+  # Test with mixed data types but valid values
+  mixed_df <- data.frame(
+    Record_ID = c("P001", "P002", "P003", "P004"),
+    pgii_response = c(1, 2.0, as.integer(3), as.numeric(4))
+  )
+  expect_error(score_pgii(mixed_df, "pgii_response"), NA)
+
+  # Test with factor responses
+  factor_df <- data.frame(
+    Record_ID = c("P001", "P002", "P003"),
+    pgii_response = factor(c("1", "2", "3"), levels = as.character(1:7))
+  )
+  expect_error(score_pgii(factor_df, "pgii_response"))
+})
+
+
+test_that("score_pgii handles verbose parameter correctly", {
+  # Create test data
+  test_data <- data.frame(
+    Record_ID = c("P001", "P002"),
+    pgii_response = c(1, 4)
+  )
+
+  # Test with verbose = TRUE
+  # This is hard to test the actual logging output, but we can verify it doesn't error
+  expect_error(score_pgii(test_data, "pgii_response", verbose = TRUE), NA)
+
+  # Test with verbose = FALSE
+  expect_error(score_pgii(test_data, "pgii_response", verbose = FALSE), NA)
+})

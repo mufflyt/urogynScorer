@@ -1,0 +1,77 @@
+url: https://mufflyt.github.io/urogynScorer/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+  params:
+    ganalytics: ~
+
+navbar:
+  structure:
+    left: [home, intro, reference, articles, tutorials, news]
+    right: [github]
+  components:
+    intro:
+      text: Get started
+      href: articles/urogynScorer.html
+    reference:
+      text: Reference
+      href: reference/index.html
+    articles:
+      text: Articles
+      menu:
+      - text: "Scoring the Pelvic Floor Distress Inventory (PFDI-20)"
+        href: articles/Scoring_the_Pelvic_Floor_Distress_Inventory.html
+      - text: "Patient Global Impression of Improvement (PGI-I)"
+        href: articles/PGII.html
+    github:
+      icon: fab fa-github fa-lg
+      href: https://github.com/mufflyt/urogynScorer/
+
+reference:
+- title: "Package overview"
+  desc: >
+    Overview of the urogynScorer package
+  contents:
+  - urogynScorer-package
+
+- title: "Pelvic Floor Distress Inventory"
+  desc: "Functions for scoring the PFDI-20 questionnaire and its subscales"
+  contents:
+  - calculate_pfdi_scores
+
+- title: "Patient Global Impression of Improvement"
+  desc: "Functions for scoring the PGI-I measure"
+  contents:
+  - score_pgii
+
+- title: "Urinary Incontinence Severity"
+  desc: "Functions for assessing urinary incontinence severity"
+  contents:
+  - sandvik_severity_index
+
+- title: "Data"
+  desc: "Sample datasets included in the package"
+  contents:
+  - pfdi_data_minimal
+
+- title: "Utilities"
+  desc: "Helper functions and utilities"
+  contents:
+  - "%>%"
+
+articles:
+- title: "Get Started"
+  navbar: ~
+  contents:
+  - urogynScorer
+
+- title: "Scoring Guides"
+  navbar: Scoring Guides
+  contents:
+  - Scoring_the_Pelvic_Floor_Distress_Inventory
+  - PGII
+
+home:
+  sidebar:
+    structure: [license, citation, authors, dev]
