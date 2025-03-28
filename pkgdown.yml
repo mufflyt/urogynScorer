@@ -1,0 +1,11 @@
+pandoc: 3.1.11
+pkgdown: 2.1.1
+pkgdown_sha: ~
+articles:
+  PGII: PGII.html
+  Scoring_the_Pelvic_Floor_Distress_Inventory: Scoring_the_Pelvic_Floor_Distress_Inventory.html
+  urogynScorer: urogynScorer.html
+last_built: 2025-03-28T00:17Z
+urls:
+  reference: https://mufflyt.github.io/urogynScorer/reference
+  article: https://mufflyt.github.io/urogynScorer/articles
