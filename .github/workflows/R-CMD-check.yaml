@@ -59,3 +59,9 @@ jobs:
         run: |
           spelling::spell_check_package()
         shell: Rscript {0}
+
+	- name: Setup macOS dependencies
+	  if: runner.os == 'macOS'
+	  run: |
+	    brew install --cask xquartz
+    		echo "XQuartz installed"

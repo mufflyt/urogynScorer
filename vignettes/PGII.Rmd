@@ -25,8 +25,34 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   dpi = 300,
-  out.width = "100%"
+  out.width = "100%",
+  echo = TRUE,
+  dev = "png",  # Use png instead of the default device
+  fig.path = "figures/"
 )
+
+# Safe graphics device initialization
+safe_graphics <- function() {
+  tryCatch({
+    if (capabilities("png")) {
+      # Use png as a fallback
+      knitr::opts_chunk$set(dev = "png")
+      return(TRUE)
+    } else {
+      # Disable plots if no graphics devices are available
+      knitr::opts_chunk$set(eval = FALSE)
+      warning("No graphics devices available. Disabling plots.")
+      return(FALSE)
+    }
+  }, error = function(e) {
+    knitr::opts_chunk$set(eval = FALSE)
+    warning("Error initializing graphics: ", e$message)
+    return(FALSE)
+  })
+}
+
+# Initialize graphics safely
+safe_graphics()
 
 # Load required packages
 library(urogynScorer)

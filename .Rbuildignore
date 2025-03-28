@@ -16,3 +16,4 @@
 ^benchmarks$
 ^profiling$
 ^CONTRIBUTING\.md$
+^vignettes/PGII\.Rmd$
