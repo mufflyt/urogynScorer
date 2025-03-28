@@ -1,9 +1,11 @@
 urogynScorer: Urogynecology Questionnaire Scoring Package
 ================
 Tyler Muffly, MD
-2025-03-26
+2025-03-28
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# urogynScorer <a href="https://mufflyt.github.io/urogynScorer/"><img src="man/figures/logo.png" align="right" height="240" alt="urogynScorer website" /></a>
 
 # urogynScorer: Standardized Scoring of Urogynecology Questionnaires
 
@@ -12,7 +14,6 @@ Tyler Muffly, MD
 ![R-CMD-check](https://github.com/mufflyt/urogynScorer/workflows/R-CMD-check/badge.svg)
 ![CRAN status](https://www.r-pkg.org/badges/version/urogynScorer)
 ![Lifecycle](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)
-[![R-CMD-check](https://github.com/mufflyt/urogynScorer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mufflyt/urogynScorer/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/mufflyt/urogynScorer/graph/badge.svg)](https://app.codecov.io/gh/mufflyt/urogynScorer)
 <!-- badges: end -->
@@ -63,9 +64,10 @@ devtools::install_github("mufflyt/urogynScorer")
 
 ## Usage Examples
 
-### PFDI-20 Scoring
+### Pelvic Floor Distress Inventory (PFDI-20) Scoring
 
-The PFDI-20 measures pelvic floor symptoms across three domains:
+The Pelvic Floor Distress Inventory (PFDI-20) measures pelvic floor
+symptoms across three domains:
 
 ``` r
 library(urogynScorer)
@@ -139,23 +141,42 @@ sandvik_results
 
 ### PFDI-20 Scoring
 
-The PFDI-20 consists of three subscales: - **POPDI-6** (questions 1-6):
-Pelvic Organ Prolapse Distress Inventory - **CRADI-8** (questions 7-14):
-Colorectal-Anal Distress Inventory - **UDI-6** (questions 15-20):
-Urinary Distress Inventory
+The PFDI-20 consists of three subscales:
 
-Each question uses a 0-4 scale: - 0: Not at all - 1: Somewhat - 2:
-Moderately - 3: Quite a bit - 4: Extremely
+| Subscale    | Questions | Description                              |
+|-------------|-----------|------------------------------------------|
+| **POPDI-6** | 1-6       | Pelvic Organ Prolapse Distress Inventory |
+| **CRADI-8** | 7-14      | Colorectal-Anal Distress Inventory       |
+| **UDI-6**   | 15-20     | Urinary Distress Inventory               |
 
-Scoring process: 1. Calculate the mean score for each subscale (if ≥50%
-of items are answered) 2. Multiply the mean by 25 to get a 0-100 scale
-3. Sum the three subscale scores to get the PFDI-20 total (0-300 scale)
+Each question uses a 0-4 scale:
+
+| Score | Description |
+|-------|-------------|
+| 0     | Not at all  |
+| 1     | Somewhat    |
+| 2     | Moderately  |
+| 3     | Quite a bit |
+| 4     | Extremely   |
+
+**Scoring process:** 1. Calculate the mean score for each subscale (if
+≥50% of items are answered) 2. Multiply the mean by 25 to get a 0-100
+scale 3. Sum the three subscale scores to get the PFDI-20 total (0-300
+scale)
 
 ### PGI-I Scoring
 
-The PGI-I is scored from 1-7: 1. Very much better 2. Much better 3. A
-little better 4. No change 5. A little worse 6. Much worse 7. Very much
-worse
+The PGI-I is scored from 1-7:
+
+| Score | Description      |
+|-------|------------------|
+| 1     | Very much better |
+| 2     | Much better      |
+| 3     | A little better  |
+| 4     | No change        |
+| 5     | A little worse   |
+| 6     | Much worse       |
+| 7     | Very much worse  |
 
 The `score_pgii()` function also adds a binary improvement indicator
 (1=improved \[1-3\], 0=not improved \[4-7\]).
@@ -163,8 +184,14 @@ The `score_pgii()` function also adds a binary improvement indicator
 ### Sandvik Severity Index
 
 The index is calculated by multiplying frequency (0-4) by amount (1-3)
-of leakage, resulting in: - **Slight** (≤1) - **Moderate** (2-5) -
-**Severe** (6-9) - **Very Severe** (≥10)
+of leakage, resulting in:
+
+| Severity Level  | Score Range |
+|-----------------|-------------|
+| **Slight**      | ≤1          |
+| **Moderate**    | 2-5         |
+| **Severe**      | 6-9         |
+| **Very Severe** | ≥10         |
 
 ## Documentation
 
@@ -214,13 +241,10 @@ requests on GitHub.
 
 MIT + file LICENSE
 
-------------------------------------------------------------------------
-
-© 2025 Tyler Muffly,MD and Denver Health and Hospital Authority
-
 ## Code of Conduct
 
 Please note that the urogynScorer project is released with a
 [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html).
-By contributing to this project, you agree to abide by its terms.
+By contributing to this project, you agree to abide by its terms. \`\`\`
+— © 2025 Tyler Muffly, MD and Denver Health and Hospital Authority
