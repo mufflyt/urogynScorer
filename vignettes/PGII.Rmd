@@ -65,6 +65,11 @@ The Patient Global Impression of Improvement (PGI-I) scale is a validated patien
 * **Responsiveness**: Sensitive to clinically meaningful changes
 
 ```{r pgii-scale-visual, echo=FALSE, fig.cap="The Patient Global Impression of Improvement (PGI-I) scale presented as a visual spectrum from very much better to very much worse.", fig.align='center'}
+# Check if device is open before attempting to control it
+if (!is.null(dev.list())) {
+  dev.control(displaylist = "enable")
+}
+
 # Create a visual representation of the PGI-I scale
 scale_data <- data.frame(
   value = 1:7,
@@ -277,6 +282,11 @@ prop_table %>%
 ### 3.2.3 Advanced Visualization: Response Profile
 
 ```{r response-profile, fig.width=8, fig.height=6, fig.cap="Comprehensive visualization of PGI-I response profiles by treatment group."}
+# Check if device is open before attempting to control it
+if (!is.null(dev.list())) {
+  dev.control(displaylist = "enable")
+}
+
 # Calculate response proportions by treatment group
 response_profile <- combined_data %>%
   group_by(treatment_group, pgii_score) %>%
@@ -352,6 +362,11 @@ fisher_results %>%
 The PGI-I is most valuable when used as part of a comprehensive assessment strategy. Here we demonstrate integration with hypothetical condition-specific measures:
 
 ```{r integration, fig.width=9, fig.height=5, fig.cap="Correlation between PGI-I scores and change in condition-specific measures."}
+# Check if device is open before attempting to control it
+if (!is.null(dev.list())) {
+  dev.control(displaylist = "enable")
+}
+
 # Simulate a condition-specific measure (e.g., symptom severity score)
 set.seed(456)
 combined_data$baseline_score <- sample(40:100, nrow(combined_data), replace = TRUE)
@@ -514,6 +529,11 @@ trial_data <- left_join(trial_data, trial_pgii, by = "patient_id")
 To illustrate the real-world application of PGI-I, we present a simulated trial of 120 women with pelvic organ prolapse randomized to surgical repair, pessary, or pelvic floor physical therapy.
 
 ```{r case-outcomes, fig.width=10, fig.height=7, fig.cap="Comprehensive comparison of treatment outcomes using both PGI-I and PFDI-20 scores."}
+# Check if device is open before attempting to control it
+if (!is.null(dev.list())) {
+  dev.control(displaylist = "enable")
+}
+
 # Create a multi-panel visualization
 p1 <- ggplot(trial_data, aes(x = treatment, fill = factor(pgii_improved))) +
   geom_bar(position = "fill") +

@@ -13,3 +13,6 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^benchmarks$
+^profiling$
+^CONTRIBUTING\.md$
