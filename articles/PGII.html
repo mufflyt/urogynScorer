@@ -111,7 +111,7 @@ modalities and conditions</li>
 changes</li>
 </ul>
 <div class="figure" style="text-align: center">
-<img src="PGII_files/figure-html/pgii-scale-visual-1.png" alt="The Patient Global Impression of Improvement (PGI-I) scale presented as a visual spectrum from very much better to very much worse." width="100%"><p class="caption">
+<img src="figures%2Fpgii-scale-visual-1.png" alt="The Patient Global Impression of Improvement (PGI-I) scale presented as a visual spectrum from very much better to very much worse." width="100%"><p class="caption">
 The Patient Global Impression of Improvement (PGI-I) scale presented as
 a visual spectrum from very much better to very much worse.
 </p>
@@ -422,11 +422,11 @@ Surgery
 <span>  keep_n_valid <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; INFO [2025-03-28 00:17:27] Starting PGI-I score calculation</span></span>
-<span><span class="co">#&gt; INFO [2025-03-28 00:17:27] Input parameters: item_name = %s, id_column = %s, keep_n_valid = %s, verbose = %s, output_file = %spgii_responsepatient_idTRUETRUENULL</span></span>
-<span><span class="co">#&gt; INFO [2025-03-28 00:17:27] Input validation successful</span></span>
-<span><span class="co">#&gt; INFO [2025-03-28 00:17:27] Extracted data for %d patients20</span></span>
-<span><span class="co">#&gt; INFO [2025-03-28 00:17:27] PGI-I scores calculated: %d valid, %d missing200</span></span>
+<span><span class="co">#&gt; INFO [2025-03-28 01:20:15] Starting PGI-I score calculation</span></span>
+<span><span class="co">#&gt; INFO [2025-03-28 01:20:15] Input parameters: item_name = %s, id_column = %s, keep_n_valid = %s, verbose = %s, output_file = %spgii_responsepatient_idTRUETRUENULL</span></span>
+<span><span class="co">#&gt; INFO [2025-03-28 01:20:15] Input validation successful</span></span>
+<span><span class="co">#&gt; INFO [2025-03-28 01:20:15] Extracted data for %d patients20</span></span>
+<span><span class="co">#&gt; INFO [2025-03-28 01:20:16] PGI-I scores calculated: %d valid, %d missing200</span></span>
 <span></span>
 <span><span class="co"># Examine results</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pgii_results</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -801,7 +801,7 @@ Surgery
 <span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"right"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">coord_flip</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="PGII_files/figure-html/response-profile-1.png" alt="Comprehensive visualization of PGI-I response profiles by treatment group." width="100%"><p class="caption">
+<img src="figures%2Fresponse-profile-1.png" alt="Comprehensive visualization of PGI-I response profiles by treatment group." width="100%"><p class="caption">
 Comprehensive visualization of PGI-I response profiles by treatment
 group.
 </p>
@@ -923,7 +923,7 @@ condition-specific measures:</p>
 <span><span class="co"># Display side by side</span></span>
 <span><span class="va">p1</span> <span class="op">+</span> <span class="va">p2</span> <span class="op">+</span> <span class="fu">plot_layout</span><span class="op">(</span>guides <span class="op">=</span> <span class="st">"collect"</span><span class="op">)</span></span></code></pre></div>
 <div class="figure">
-<img src="PGII_files/figure-html/integration-1.png" alt="Correlation between PGI-I scores and change in condition-specific measures." width="100%"><p class="caption">
+<img src="figures%2Fintegration-1.png" alt="Correlation between PGI-I scores and change in condition-specific measures." width="100%"><p class="caption">
 Correlation between PGI-I scores and change in condition-specific
 measures.
 </p>
