@@ -3,7 +3,7 @@
 improvement following treatment. The function includes robust input validation,
 detailed logging, and handles missing values according to scoring guidelines."><meta property="og:description" content="Scores the PGI-I, a single-item measure assessing patient-reported
 improvement following treatment. The function includes robust input validation,
-detailed logging, and handles missing values according to scoring guidelines."></head><body>
+detailed logging, and handles missing values according to scoring guidelines."><meta property="og:image" content="https://mufflyt.github.io/urogynScorer/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -35,8 +35,7 @@ detailed logging, and handles missing values according to scoring guidelines."><
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Score the Patient Global Impression of Improvement (PGI-I)</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>Score the Patient Global Impression of Improvement (PGI-I)</h1>
       <small class="dont-index">Source: <a href="https://github.com/mufflyt/urogynScorer/blob/main/R/score_pgii.R" class="external-link"><code>R/score_pgii.R</code></a></small>
       <div class="d-none name"><code>score_pgii.Rd</code></div>
     </div>
@@ -141,11 +140,11 @@ for incontinence. <em>American Journal of Obstetrics and Gynecology, 189</em>(1)
 <span class="r-in"><span>  keep_n_valid <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Starting PGI-I score calculation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Input parameters: item_name = %s, id_column = %s, keep_n_valid = %s, verbose = %s, output_file = %spgii_responseRecord_IDFALSETRUENULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Input validation successful</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Extracted data for %d patients4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] PGI-I scores calculated: %d valid, %d missing31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Starting PGI-I score calculation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Input parameters: item_name = %s, id_column = %s, keep_n_valid = %s, verbose = %s, output_file = %spgii_responseRecord_IDFALSETRUENULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Input validation successful</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Extracted data for %d patients4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] PGI-I scores calculated: %d valid, %d missing31</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pgii_scores</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 3</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Record_ID pgii_score pgii_improved</span>
@@ -169,11 +168,11 @@ for incontinence. <em>American Journal of Obstetrics and Gynecology, 189</em>(1)
 <span class="r-in"><span>  keep_n_valid <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Starting PGI-I score calculation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Input parameters: item_name = %s, id_column = %s, keep_n_valid = %s, verbose = %s, output_file = %sGlobalImpressionPatientIDTRUETRUENULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Input validation successful</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Extracted data for %d patients5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] PGI-I scores calculated: %d valid, %d missing50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Starting PGI-I score calculation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Input parameters: item_name = %s, id_column = %s, keep_n_valid = %s, verbose = %s, output_file = %sGlobalImpressionPatientIDTRUETRUENULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Input validation successful</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Extracted data for %d patients5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] PGI-I scores calculated: %d valid, %d missing50</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">pgii_scores</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   PatientID pgii_score pgii_improved pgii_n_valid</span>
@@ -197,12 +196,12 @@ for incontinence. <em>American Journal of Obstetrics and Gynecology, 189</em>(1)
 <span class="r-in"><span>  output_file <span class="op">=</span> <span class="va">temp_file</span>,</span></span>
 <span class="r-in"><span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Starting PGI-I score calculation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Input parameters: item_name = %s, id_column = %s, keep_n_valid = %s, verbose = %s, output_file = %spgii_responseRecord_IDFALSETRUE/tmp/RtmpATBI16/file76a33d17e0b9.csv</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Input validation successful</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Extracted data for %d patients5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] PGI-I scores calculated: %d valid, %d missing41</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 01:28:21] Saving results to file: %s/tmp/RtmpATBI16/file76a33d17e0b9.csv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Starting PGI-I score calculation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Input parameters: item_name = %s, id_column = %s, keep_n_valid = %s, verbose = %s, output_file = %spgii_responseRecord_IDFALSETRUE/tmp/RtmpYpLwtj/file76b86d48420f.csv</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Input validation successful</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Extracted data for %d patients5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] PGI-I scores calculated: %d valid, %d missing41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> INFO [2025-03-28 22:46:19] Saving results to file: %s/tmp/RtmpYpLwtj/file76b86d48420f.csv</span>
 <span class="r-in"><span><span class="co"># Results saved to temp_file</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

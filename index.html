@@ -13,6 +13,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Calculate Scores for Urogynecology Questionnaires">
 <meta name="description" content="A comprehensive toolkit for scoring, validating, and analyzing patient-reported outcome measures (PROMs) used in urogynecology and pelvic floor medicine. The package implements standardized scoring algorithms for widely-used questionnaires including: the Pelvic Floor Distress Inventory (PFDI-20) with its subscales (POPDI-6, CRADI-8, UDI-6), the Patient Global Impression of Improvement (PGI-I), and the Sandvik Severity Index for urinary incontinence. Core features include: robust validation of input data, evidence-based handling of missing responses according to instrument-specific guidelines, consistent score scaling and interpretation, detailed logging for quality assurance, and comprehensive documentation with clinical context. All scoring methods follow published validation studies and clinical practice guidelines to ensure reproducibility in research and clinical applications. References: Barber et al. (2005) &lt;doi:10.1016/j.ajog.2004.10.578&gt;; Yalcin &amp; Bump (2003) &lt;doi:10.1016/S0002-9378(03)00598-1&gt;; Sandvik et al. (2000) &lt;doi:10.1002/nau.1041&gt;; Jelovsek &amp; Barber (2006) &lt;doi:10.1016/j.ajog.2006.01.060&gt;.">
 <meta property="og:description" content="A comprehensive toolkit for scoring, validating, and analyzing patient-reported outcome measures (PROMs) used in urogynecology and pelvic floor medicine. The package implements standardized scoring algorithms for widely-used questionnaires including: the Pelvic Floor Distress Inventory (PFDI-20) with its subscales (POPDI-6, CRADI-8, UDI-6), the Patient Global Impression of Improvement (PGI-I), and the Sandvik Severity Index for urinary incontinence. Core features include: robust validation of input data, evidence-based handling of missing responses according to instrument-specific guidelines, consistent score scaling and interpretation, detailed logging for quality assurance, and comprehensive documentation with clinical context. All scoring methods follow published validation studies and clinical practice guidelines to ensure reproducibility in research and clinical applications. References: Barber et al. (2005) &lt;doi:10.1016/j.ajog.2004.10.578&gt;; Yalcin &amp; Bump (2003) &lt;doi:10.1016/S0002-9378(03)00598-1&gt;; Sandvik et al. (2000) &lt;doi:10.1002/nau.1041&gt;; Jelovsek &amp; Barber (2006) &lt;doi:10.1016/j.ajog.2006.01.060&gt;.">
+<meta property="og:image" content="https://mufflyt.github.io/urogynScorer/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -52,10 +53,17 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="urogynscorer-urogynecology-questionnaire-scoring-package">urogynScorer: Urogynecology Questionnaire Scoring Package<a class="anchor" aria-label="anchor" href="#urogynscorer-urogynecology-questionnaire-scoring-package"></a>
-</h1></div>
-<p>Tyler Muffly, MD 2025-03-26</p>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="urogynscorer-urogynecology-questionnaire-scoring-package">urogynScorer: Urogynecology Questionnaire Scoring Package<a class="anchor" aria-label="anchor" href="#urogynscorer-urogynecology-questionnaire-scoring-package"></a>
+</h1>
+</div>
+<p>Tyler Muffly, MD 2025-03-28</p>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+</div>
+<div class="section level1">
+<h1 id="urogynscorer-">urogynScorer 
+<a class="anchor" aria-label="anchor" href="#urogynscorer-"></a>
+</h1>
 </div>
 <div class="section level1">
 <h1 id="urogynscorer-standardized-scoring-of-urogynecology-questionnaires">urogynScorer: Standardized Scoring of Urogynecology Questionnaires<a class="anchor" aria-label="anchor" href="#urogynscorer-standardized-scoring-of-urogynecology-questionnaires"></a>
@@ -123,9 +131,9 @@
 <h2 id="usage-examples">Usage Examples<a class="anchor" aria-label="anchor" href="#usage-examples"></a>
 </h2>
 <div class="section level3">
-<h3 id="pfdi-20-scoring">PFDI-20 Scoring<a class="anchor" aria-label="anchor" href="#pfdi-20-scoring"></a>
+<h3 id="pelvic-floor-distress-inventory-pfdi-20-scoring">Pelvic Floor Distress Inventory (PFDI-20) Scoring<a class="anchor" aria-label="anchor" href="#pelvic-floor-distress-inventory-pfdi-20-scoring"></a>
 </h3>
-<p>The PFDI-20 measures pelvic floor symptoms across three domains:</p>
+<p>The Pelvic Floor Distress Inventory (PFDI-20) measures pelvic floor symptoms across three domains:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mufflyt/urogynScorer" class="external-link">urogynScorer</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
@@ -194,22 +202,134 @@
 <h2 id="how-questionnaires-are-scored">How Questionnaires Are Scored<a class="anchor" aria-label="anchor" href="#how-questionnaires-are-scored"></a>
 </h2>
 <div class="section level3">
-<h3 id="pfdi-20-scoring-1">PFDI-20 Scoring<a class="anchor" aria-label="anchor" href="#pfdi-20-scoring-1"></a>
+<h3 id="pfdi-20-scoring">PFDI-20 Scoring<a class="anchor" aria-label="anchor" href="#pfdi-20-scoring"></a>
 </h3>
-<p>The PFDI-20 consists of three subscales: - <strong>POPDI-6</strong> (questions 1-6): Pelvic Organ Prolapse Distress Inventory - <strong>CRADI-8</strong> (questions 7-14): Colorectal-Anal Distress Inventory - <strong>UDI-6</strong> (questions 15-20): Urinary Distress Inventory</p>
-<p>Each question uses a 0-4 scale: - 0: Not at all - 1: Somewhat - 2: Moderately - 3: Quite a bit - 4: Extremely</p>
-<p>Scoring process: 1. Calculate the mean score for each subscale (if ≥50% of items are answered) 2. Multiply the mean by 25 to get a 0-100 scale 3. Sum the three subscale scores to get the PFDI-20 total (0-300 scale)</p>
+<p>The PFDI-20 consists of three subscales:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Subscale</th>
+<th>Questions</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>POPDI-6</strong></td>
+<td>1-6</td>
+<td>Pelvic Organ Prolapse Distress Inventory</td>
+</tr>
+<tr class="even">
+<td><strong>CRADI-8</strong></td>
+<td>7-14</td>
+<td>Colorectal-Anal Distress Inventory</td>
+</tr>
+<tr class="odd">
+<td><strong>UDI-6</strong></td>
+<td>15-20</td>
+<td>Urinary Distress Inventory</td>
+</tr>
+</tbody>
+</table>
+<p>Each question uses a 0-4 scale:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Score</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>Not at all</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Somewhat</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Moderately</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>Quite a bit</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>Extremely</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Scoring process:</strong> 1. Calculate the mean score for each subscale (if ≥50% of items are answered) 2. Multiply the mean by 25 to get a 0-100 scale 3. Sum the three subscale scores to get the PFDI-20 total (0-300 scale)</p>
 </div>
 <div class="section level3">
 <h3 id="pgi-i-scoring">PGI-I Scoring<a class="anchor" aria-label="anchor" href="#pgi-i-scoring"></a>
 </h3>
-<p>The PGI-I is scored from 1-7: 1. Very much better 2. Much better 3. A little better 4. No change 5. A little worse 6. Much worse 7. Very much worse</p>
+<p>The PGI-I is scored from 1-7:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Score</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Very much better</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Much better</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>A little better</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>No change</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>A little worse</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Much worse</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Very much worse</td>
+</tr>
+</tbody>
+</table>
 <p>The <code><a href="reference/score_pgii.html">score_pgii()</a></code> function also adds a binary improvement indicator (1=improved [1-3], 0=not improved [4-7]).</p>
 </div>
 <div class="section level3">
 <h3 id="sandvik-severity-index-1">Sandvik Severity Index<a class="anchor" aria-label="anchor" href="#sandvik-severity-index-1"></a>
 </h3>
-<p>The index is calculated by multiplying frequency (0-4) by amount (1-3) of leakage, resulting in: - <strong>Slight</strong> (≤1) - <strong>Moderate</strong> (2-5) - <strong>Severe</strong> (6-9) - <strong>Very Severe</strong> (≥10)</p>
+<p>The index is calculated by multiplying frequency (0-4) by amount (1-3) of leakage, resulting in:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Severity Level</th>
+<th>Score Range</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>Slight</strong></td>
+<td>≤1</td>
+</tr>
+<tr class="even">
+<td><strong>Moderate</strong></td>
+<td>2-5</td>
+</tr>
+<tr class="odd">
+<td><strong>Severe</strong></td>
+<td>6-9</td>
+</tr>
+<tr class="even">
+<td><strong>Very Severe</strong></td>
+<td>≥10</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="section level2">
@@ -249,13 +369,11 @@
 <h2 id="license">License<a class="anchor" aria-label="anchor" href="#license"></a>
 </h2>
 <p>MIT + file LICENSE</p>
-<hr>
-<p>© 2025 Tyler Muffly,MD and Denver Health and Hospital Authority</p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
 </h2>
-<p>Please note that the urogynScorer project is released with a <a href="https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the urogynScorer project is released with a <a href="https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms. ``` — © 2025 Tyler Muffly, MD and Denver Health and Hospital Authority</p>
 </div>
 </div>
 
@@ -285,7 +403,6 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/mufflyt/urogynScorer/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/mufflyt/urogynScorer/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://app.codecov.io/gh/mufflyt/urogynScorer" class="external-link"><img src="https://codecov.io/gh/mufflyt/urogynScorer/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
