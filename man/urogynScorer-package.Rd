@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-A comprehensive toolkit for scoring, validating, and analyzing patient-reported outcome measures (PROMs) used in urogynecology and pelvic floor medicine. The package implements standardized scoring algorithms for widely-used questionnaires including: the Pelvic Floor Distress Inventory (PFDI-20) with its subscales (POPDI-6, CRADI-8, UDI-6), the Patient Global Impression of Improvement (PGI-I), and the Sandvik Severity Index for urinary incontinence. Core features include: robust validation of input data, evidence-based handling of missing responses according to instrument-specific guidelines, consistent score scaling and interpretation, detailed logging for quality assurance, and comprehensive documentation with clinical context. All scoring methods follow published validation studies and clinical practice guidelines to ensure reproducibility in research and clinical applications. References: Barber et al. (2005) \doi{10.1016/j.ajog.2004.10.578}; Yalcin & Bump (2003) \doi{10.1016/S0002-9378(03)00598-1}; Sandvik et al. (2000) \doi{10.1002/nau.1041}; Jelovsek & Barber (2006) \doi{10.1016/j.ajog.2006.01.060}.
+A comprehensive toolkit for scoring, validating, and analyzing patient-reported outcome measures (PROMs) used in urogynecology and pelvic floor medicine. The package implements standardized scoring algorithms with robust validation for commonly used questionnaires including PFDI-20, PGI-I, and Sandvik Severity Index.
 
 A comprehensive toolkit for scoring, validating, and analyzing patient-reported
 outcome measures (PROMs) used in urogynecology and pelvic floor medicine. The
@@ -57,17 +57,13 @@ floor disorders. \emph{American Journal of Obstetrics and Gynecology, 194}(5), 1
 Useful links:
 \itemize{
   \item \url{https://github.com/mufflyt/urogynScorer}
+  \item \url{https://mufflyt.github.io/urogynScorer/}
   \item Report bugs at \url{https://github.com/mufflyt/urogynScorer/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: Tyler Muffly \email{tyler.muffly@dhha.org} (\href{https://orcid.org/0000-0002-2044-1693}{ORCID}) [copyright holder]
-
-Other contributors:
-\itemize{
-  \item Denver Health and Hospital Authority [copyright holder]
-}
+\strong{Maintainer}: Tyler Muffly \email{tyler.muffly@dhha.org} (\href{https://orcid.org/0000-0001-9374-9525}{ORCID})
 
 }
 \keyword{internal}

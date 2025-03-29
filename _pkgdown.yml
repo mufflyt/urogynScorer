@@ -1,11 +1,9 @@
 url: https://mufflyt.github.io/urogynScorer/
-
 template:
   bootstrap: 5
   bootswatch: flatly
   params:
     ganalytics: ~
-
 navbar:
   structure:
     left: [home, intro, reference, articles, tutorials, news]
@@ -27,63 +25,58 @@ navbar:
     github:
       icon: fab fa-github fa-lg
       href: https://github.com/mufflyt/urogynScorer/
-
 reference:
 - title: "Package overview"
   desc: >
     Overview of the urogynScorer package
   contents:
   - urogynScorer-package
-
 - title: "Pelvic Floor Distress Inventory"
   desc: "Functions for scoring the PFDI-20 questionnaire and its subscales"
   contents:
   - calculate_pfdi_scores
-
 - title: "Patient Global Impression of Improvement"
   desc: "Functions for scoring the PGI-I measure"
   contents:
   - score_pgii
-
 - title: "Urinary Incontinence Severity"
   desc: "Functions for assessing urinary incontinence severity"
   contents:
   - sandvik_severity_index
-
-reference:
 - title: "Pelvic Floor Impact Questionnaire"
   desc: "Functions for scoring the PFIQ-7 measure"
   contents:
   - calculate_pfiq7
-
-reference:
 - title: "Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire"
-  desc: "PISQ-12 is a validated instrument for evaluating sexual function in women with pelvic organ prolapse and/or urinary incontinence."
+  desc: "Functions for scoring the PISQ-12 measure"
   contents:
-  - pisq12_score
-
+  - calculate_pisq12
+- title: "Overactive Bladder Questionnaire Short Form"
+  desc: "A validated instrument measuring symptom bother and health-related quality of life"
+  contents:
+  - calculate_oabq_sf
+- title: "International Consultation on Incontinence Questionnaire"
+  desc: "Calculates scores for the ICIQ-UI SF, measuring urinary incontinence symptoms and impact on quality of life"
+  contents:
+  - calculate_iciq_ui_sf
 - title: "Data"
   desc: "Sample datasets included in the package"
   contents:
   - pfdi_data_minimal
-
 - title: "Utilities"
   desc: "Helper functions and utilities"
   contents:
   - "%>%"
-
 articles:
 - title: "Get Started"
   navbar: ~
   contents:
   - urogynScorer
-
 - title: "Scoring Guides"
   navbar: Scoring Guides
   contents:
   - Scoring_the_Pelvic_Floor_Distress_Inventory
   - PGII
-
 home:
   sidebar:
     structure: [license, citation, authors, dev]

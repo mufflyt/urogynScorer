@@ -36,6 +36,7 @@ knitr::opts_chunk$set(
   - Urinary Distress Inventory (UDI-6)
 - **Pelvic Floor Impact Questionnaire (PFIQ-7)**
 - **Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12)**
+- **Overactive Bladder Questionnaire Short Form (OAB-q SF)**
 - **Patient Global Impression of Improvement (PGI-I)**
 - **Sandvik Severity Index** for urinary incontinence
 
@@ -125,6 +126,48 @@ pisq_results <- calculate_pisq12(
 
 # View results
 pisq_results
+```
+
+### Overactive Bladder Questionnaire Short Form (OAB-q SF)
+
+The OAB-q SF evaluates symptom bother and health-related quality of life in patients with overactive bladder:
+
+```{r eval=FALSE}
+# Create sample data
+oab_data <- data.frame(
+  patient_id = c("P001", "P002", "P003"),
+  oab_1 = c(2, 4, 3),      # Symptom items (1-6)
+  oab_2 = c(3, 5, 2),
+  oab_3 = c(4, 3, 1),
+  oab_4 = c(2, 4, 3),
+  oab_5 = c(3, 2, 4),
+  oab_6 = c(1, 3, 2),
+  oab_7 = c(4, 2, 5),      # HRQL items (7-19)
+  oab_8 = c(5, 3, 4),
+  oab_9 = c(3, 4, 5),
+  oab_10 = c(4, 3, 4),
+  oab_11 = c(5, 2, 3),
+  oab_12 = c(4, 3, 5),
+  oab_13 = c(3, 4, 4),
+  oab_14 = c(5, 3, 3),
+  oab_15 = c(4, 5, 4),
+  oab_16 = c(3, 4, 5),
+  oab_17 = c(4, 3, 4),
+  oab_18 = c(5, 4, 3),
+  oab_19 = c(4, 5, 4)
+)
+
+# Score OAB-q SF
+oab_results <- calculate_oabq_sf(
+  questionnaire_data = oab_data,
+  id_column = "patient_id",
+  symptom_missing_threshold = 0.5,  # Allow up to 50% missing data for symptom scale
+  hrql_missing_threshold = 0.5,     # Allow up to 50% missing data for HRQL scale
+  verbose = TRUE                    # Enable detailed logging
+)
+
+# View results
+oab_results
 ```
 
 ### Patient Global Impression of Improvement (PGI-I)
@@ -241,6 +284,29 @@ Each question is scored from 0-4:
 3. Transform to a 0-100 scale: (score/48) × 100
 4. Higher scores indicate better sexual function
 
+### OAB-q SF Scoring
+
+The OAB-q SF consists of two scales:
+
+| Scale | Questions | Description |
+|-------|-----------|-------------|
+| **Symptom Bother** | 1-6 | Measures degree of bother from overactive bladder symptoms |
+| **Health-Related Quality of Life (HRQL)** | 7-19 | Measures impact on quality of life |
+
+Each question is scored from 1-6:
+- 1: Not at all
+- 2: A little bit
+- 3: Somewhat
+- 4: Quite a bit
+- 5: A great deal
+- 6: A very great deal
+
+**Scoring process:**
+1. Calculate raw scores for each scale (sum of items)
+2. Transform to a 0-100 scale using formula: ((mean-1)/5) × 100
+3. For Symptom Bother scale, higher scores indicate greater symptom bother
+4. For HRQL scale, higher scores indicate better quality of life
+
 ### PGI-I Scoring
 
 The PGI-I is scored from 1-7:
@@ -310,12 +376,30 @@ $$\text{PFIQ-7 Total} = \text{UIQ-7} + \text{CRAIQ-7} + \text{POPIQ-7}$$
 The PISQ-12 has 12 questions, with questions 1-4 reverse-coded:
 
 1. After reverse-coding questions 1-4, sum all responses:
-$$\text{PISQ-12 Raw} = \sum_{i=1}^{12} q_i$$
+$\text{PISQ-12 Raw} = \sum_{i=1}^{12} q_i$
 
 2. Scale to a 0-100 range:
-$$\text{PISQ-12 Score} = \frac{\text{PISQ-12 Raw}}{48} \times 100$$
+$\text{PISQ-12 Score} = \frac{\text{PISQ-12 Raw}}{48} \times 100$
 
 Higher scores indicate better sexual function.
+
+### Overactive Bladder Questionnaire Short Form (OAB-q SF) Scoring
+
+The OAB-q SF consists of two separate scales:
+
+1. For the Symptom Bother scale (6 items), calculate the transformed score:
+
+$\text{Symptom Score} = \frac{(\bar{q}_{\text{symptom}} - 1)}{5} \times 100$
+
+where $\bar{q}_{\text{symptom}}$ is the mean of the 6 symptom items.
+
+2. For the Health-Related Quality of Life scale (13 items), calculate:
+
+$\text{HRQL Score} = \frac{(\bar{q}_{\text{hrql}} - 1)}{5} \times 100$
+
+where $\bar{q}_{\text{hrql}}$ is the mean of the 13 HRQL items.
+
+For the Symptom scale, higher scores indicate greater symptom bother. For the HRQL scale, higher scores indicate better quality of life.
 
 ### PGI-I Scoring
 
@@ -367,6 +451,9 @@ vignette("Scoring_the_Pelvic_Floor_Distress_Inventory", package = "urogynScorer"
 
 # View PISQ-12 vignette
 vignette("Scoring_the_Pelvic_Organ_Prolapse_Urinary_Incontinence_Sexual_Questionnaire", package = "urogynScorer")
+
+# View OAB-q SF vignette
+vignette("Scoring_the_Overactive_Bladder_Questionnaire_Short_Form", package = "urogynScorer")
 ```
 
 ## Citation
@@ -383,6 +470,8 @@ R package version 0.2.0. https://github.com/mufflyt/urogynScorer
 - **Barber MD, Walters MD, Bump RC** (2005). Short forms of two condition-specific quality-of-life questionnaires for women with pelvic floor disorders (PFDI-20 and PFIQ-7). *American Journal of Obstetrics and Gynecology, 193*(1), 103-113. 
 
 - **Rogers RG, Coates KW, Kammerer-Doak D, Khalsa S, Qualls C** (2003). A short form of the Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12). *International Urogynecology Journal and Pelvic Floor Dysfunction, 14*(3), 164-168.
+
+- **Coyne KS, Thompson CL, Lai JS, Sexton CC** (2015). An overactive bladder symptom and health-related quality of life short-form: validation of the OAB-q SF. *Neurourology and Urodynamics, 34*(3), 255-263.
 
 - **Yalcin I, Bump RC** (2003). Validation of two global impression questionnaires for incontinence. *American Journal of Obstetrics and Gynecology, 189*(1), 98-101.
 
@@ -414,11 +503,12 @@ Future development plans for the urogynScorer package include:
 * **Version 0.3.0** (Q3 2025):
   * Add support for PFIQ-7 (Pelvic Floor Impact Questionnaire)
   * Implement Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12)
+  * Implement Overactive Bladder Questionnaire Short Form (OAB-q SF)
   * Improve visualization tools for longitudinal patient data
 
 * **Version 0.4.0** (Q1 2026):
-  * Add support for OAB-q SF (Overactive Bladder Questionnaire Short Form)
   * Implement ICIQ-UI SF (International Consultation on Incontinence Questionnaire-Urinary Incontinence Short Form)
+  * Add support for EPAQ (Electronic Personal Assessment Questionnaire)
   * Create interactive Shiny dashboard for clinical use
 
 * **Version 1.0.0** (Q3 2026):

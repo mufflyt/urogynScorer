@@ -1,41 +1,18 @@
 Package: urogynScorer
-Type: Package
 Title: Calculate Scores for Urogynecology Questionnaires
 Version: 0.2.0
-Date: 2025-03-15
-Authors@R: c(
-    person(given = "Tyler", 
-           family = "Muffly", 
-           email = "tyler.muffly@dhha.org", 
-           role = c("aut", "cre", "cph"),
-           comment = c(ORCID = "0000-0002-2044-1693")),
-    person(given = "Denver Health and Hospital Authority",
-           role = "cph")
-    )
-Maintainer: Tyler Muffly <tyler.muffly@dhha.org>
-Description: A comprehensive toolkit for scoring, validating, and analyzing 
-    patient-reported outcome measures (PROMs) used in urogynecology and pelvic 
-    floor medicine. The package implements standardized scoring algorithms for 
-    widely-used questionnaires including: the Pelvic Floor Distress Inventory 
-    (PFDI-20) with its subscales (POPDI-6, CRADI-8, UDI-6), the Patient Global 
-    Impression of Improvement (PGI-I), and the Sandvik Severity Index for urinary 
-    incontinence. Core features include: robust validation of input data, 
-    evidence-based handling of missing responses according to instrument-specific 
-    guidelines, consistent score scaling and interpretation, detailed logging for 
-    quality assurance, and comprehensive documentation with clinical context. 
-    All scoring methods follow published validation studies and clinical practice 
-    guidelines to ensure reproducibility in research and clinical applications. 
-    References: Barber et al. (2005) <doi:10.1016/j.ajog.2004.10.578>; 
-    Yalcin & Bump (2003) <doi:10.1016/S0002-9378(03)00598-1>; 
-    Sandvik et al. (2000) <doi:10.1002/nau.1041>;
-    Jelovsek & Barber (2006) <doi:10.1016/j.ajog.2006.01.060>.
+Authors@R: 
+    person("Tyler", "Muffly", , "tyler.muffly@dhha.org", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9374-9525"))
+Description: A comprehensive toolkit for scoring, validating, and analyzing
+    patient-reported outcome measures (PROMs) used in urogynecology and pelvic
+    floor medicine. The package implements standardized scoring algorithms with
+    robust validation for commonly used questionnaires including PFDI-20, 
+    PGI-I, and Sandvik Severity Index.
 License: MIT + file LICENSE
-Copyright: 2025 Tyler Muffly and Denver Health and Hospital Authority
-Encoding: UTF-8
-Language: en-US
-Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
-Imports:
+URL: https://github.com/mufflyt/urogynScorer, https://mufflyt.github.io/urogynScorer/
+BugReports: https://github.com/mufflyt/urogynScorer/issues
+Imports: 
     assertthat (>= 0.2.1),
     dplyr (>= 1.0.0),
     logger,
@@ -45,7 +22,7 @@ Imports:
     tibble (>= 3.0.0),
     tidyr,
     utils
-Suggests:
+Suggests: 
     bench,
     ggplot2,
     grDevices,
@@ -59,13 +36,9 @@ Suggests:
     patchwork (>= 1.1.0),
     scales (>= 1.2.0),
     viridis (>= 0.6.0)
-Config/testthat/edition: 3
-Config/Needs/website: pkgdown, rmarkdown
-Config/Needs/coverage: covr
-LazyData: true
-Depends:
-    R (>= 3.5.0)
 VignetteBuilder: knitr
-URL: https://github.com/mufflyt/urogynScorer
-BugReports: https://github.com/mufflyt/urogynScorer/issues
-Classification/MSC: 62P10, 62P15, 92C50
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
