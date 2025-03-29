@@ -2,6 +2,7 @@
 % Please edit documentation in R/urogynScorer-package.R
 \docType{package}
 \name{urogynScorer-package}
+\alias{urogynScorer}
 \alias{urogynScorer-package}
 \title{urogynScorer: Calculate Scores for Urogynecology Questionnaires}
 \description{
@@ -53,13 +54,6 @@ floor disorders. \emph{American Journal of Obstetrics and Gynecology, 194}(5), 1
 }
 }
 \seealso{
-Useful links:
-\itemize{
-  \item \url{https://github.com/mufflyt/urogynScorer}
-  \item Report bugs at \url{https://github.com/mufflyt/urogynScorer/issues}
-}
-
-
 Useful links:
 \itemize{
   \item \url{https://github.com/mufflyt/urogynScorer}

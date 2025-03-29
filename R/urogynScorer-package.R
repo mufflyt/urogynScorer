@@ -47,6 +47,5 @@
 #'     floor disorders. \emph{American Journal of Obstetrics and Gynecology, 194}(5), 1455-1461.
 #' }
 #'
-#' @docType package
 #' @name urogynScorer-package
 NULL
