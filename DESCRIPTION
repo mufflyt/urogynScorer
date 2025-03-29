@@ -12,6 +12,7 @@ Description: A comprehensive toolkit for scoring, validating, and analyzing
 License: MIT + file LICENSE
 URL: https://github.com/mufflyt/urogynScorer, https://mufflyt.github.io/urogynScorer/
 BugReports: https://github.com/mufflyt/urogynScorer/issues
+Depends: R (>= 3.5.0)
 Imports: 
     assertthat (>= 0.2.1),
     dplyr (>= 1.0.0),
