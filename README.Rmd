@@ -34,6 +34,8 @@ knitr::opts_chunk$set(
   - Pelvic Organ Prolapse Distress Inventory (POPDI-6)
   - Colorectal-Anal Distress Inventory (CRADI-8)
   - Urinary Distress Inventory (UDI-6)
+- **Pelvic Floor Impact Questionnaire (PFIQ-7)**
+- **Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12)**
 - **Patient Global Impression of Improvement (PGI-I)**
 - **Sandvik Severity Index** for urinary incontinence
 
@@ -89,6 +91,40 @@ pfdi_results <- calculate_pfdi_scores(
 
 # View results
 pfdi_results
+```
+
+### Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12)
+
+The Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12) is a condition-specific tool that evaluates sexual function in women with pelvic organ prolapse and/or urinary incontinence:
+
+```{r eval=FALSE}
+# Create sample data
+pisq_data <- data.frame(
+  Record_ID = c("PT001", "PT002", "PT003"),
+  pisq_q1 = c(2, 3, 1),    # Questions 1-4 are scored 0-4 (higher = better)
+  pisq_q2 = c(3, 2, 0),
+  pisq_q3 = c(1, 2, 4),
+  pisq_q4 = c(2, 1, 3),
+  pisq_q5 = c(2, 1, 0),    # Questions 5-12 are scored 0-4 (lower = better)
+  pisq_q6 = c(1, 2, 3),
+  pisq_q7 = c(0, 1, 2),
+  pisq_q8 = c(1, 0, 2),
+  pisq_q9 = c(2, 1, 0),
+  pisq_q10 = c(3, 2, 1),
+  pisq_q11 = c(1, 2, 0),
+  pisq_q12 = c(0, 1, 3)
+)
+
+# Score PISQ-12
+pisq_results <- calculate_pisq12(
+  questionnaire_data = pisq_data,
+  id_column = "Record_ID",
+  missing_threshold = 0.2,  # Allow up to 20% missing data
+  verbose = TRUE            # Enable detailed logging
+)
+
+# View results
+pisq_results
 ```
 
 ### Patient Global Impression of Improvement (PGI-I)
@@ -162,6 +198,49 @@ Each question uses a 0-4 scale:
 2. Multiply the mean by 25 to get a 0-100 scale
 3. Sum the three subscale scores to get the PFDI-20 total (0-300 scale)
 
+### PFIQ-7 Scoring
+
+The PFIQ-7 consists of three scales with 7 questions each:
+
+| Scale | Description |
+|-------|-------------|
+| **UIQ-7** | Urinary Impact Questionnaire |
+| **CRAIQ-7** | Colorectal-Anal Impact Questionnaire |
+| **POPIQ-7** | Pelvic Organ Prolapse Impact Questionnaire |
+
+Each question is scored from 0-3:
+- 0: Not at all
+- 1: Somewhat
+- 2: Moderately
+- 3: Quite a bit
+
+**Scoring process:**
+1. Calculate the sum for each scale
+2. Multiply by (100/21) to get a 0-100 scale
+3. Sum the three scales to get the total PFIQ-7 score (0-300 scale)
+
+### PISQ-12 Scoring
+
+The Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12) evaluates sexual function in women with pelvic floor disorders:
+
+| Questions | Direction |
+|-----------|-----------|
+| **1-4** | Higher score = better function (reverse-coded) |
+| **5-12** | Lower score = better function |
+
+Each question is scored from 0-4:
+- 0: Always
+- 1: Usually
+- 2: Sometimes
+- 3: Seldom
+- 4: Never
+
+**Scoring process:**
+1. Reverse-code questions 1-4 (0=4, 1=3, etc.)
+2. Sum all items (range 0-48)
+3. Transform to a 0-100 scale: (score/48) × 100
+4. Higher scores indicate better sexual function
+
 ### PGI-I Scoring
 
 The PGI-I is scored from 1-7:
@@ -213,6 +292,31 @@ $$\text{PFDI-20 Total} = \text{POPDI-6} + \text{CRADI-8} + \text{UDI-6}$$
 
 The resulting PFDI-20 total score ranges from 0 to 300, with higher scores indicating greater distress.
 
+### PFIQ-7 Scoring
+
+For each of the three scales (UIQ-7, CRAIQ-7, POPIQ-7), with 7 questions each scored 0-3:
+
+1. Calculate the sum of all valid responses for each scale:
+$$\text{Scale Sum} = \sum_{i=1}^{7} q_i$$
+
+2. Scale to a 0-100 range:
+$$\text{Scale Score} = \text{Scale Sum} \times \frac{100}{21}$$
+
+3. Calculate the total PFIQ-7 score:
+$$\text{PFIQ-7 Total} = \text{UIQ-7} + \text{CRAIQ-7} + \text{POPIQ-7}$$
+
+### Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12) Scoring
+
+The PISQ-12 has 12 questions, with questions 1-4 reverse-coded:
+
+1. After reverse-coding questions 1-4, sum all responses:
+$$\text{PISQ-12 Raw} = \sum_{i=1}^{12} q_i$$
+
+2. Scale to a 0-100 range:
+$$\text{PISQ-12 Score} = \frac{\text{PISQ-12 Raw}}{48} \times 100$$
+
+Higher scores indicate better sexual function.
+
 ### PGI-I Scoring
 
 The PGI-I is scored directly on a 7-point scale:
@@ -260,6 +364,9 @@ vignette(package = "urogynScorer")
 
 # View PFDI-20 vignette
 vignette("Scoring_the_Pelvic_Floor_Distress_Inventory", package = "urogynScorer")
+
+# View PISQ-12 vignette
+vignette("Scoring_the_Pelvic_Organ_Prolapse_Urinary_Incontinence_Sexual_Questionnaire", package = "urogynScorer")
 ```
 
 ## Citation
@@ -274,6 +381,8 @@ R package version 0.2.0. https://github.com/mufflyt/urogynScorer
 ## References
 
 - **Barber MD, Walters MD, Bump RC** (2005). Short forms of two condition-specific quality-of-life questionnaires for women with pelvic floor disorders (PFDI-20 and PFIQ-7). *American Journal of Obstetrics and Gynecology, 193*(1), 103-113. 
+
+- **Rogers RG, Coates KW, Kammerer-Doak D, Khalsa S, Qualls C** (2003). A short form of the Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12). *International Urogynecology Journal and Pelvic Floor Dysfunction, 14*(3), 164-168.
 
 - **Yalcin I, Bump RC** (2003). Validation of two global impression questionnaires for incontinence. *American Journal of Obstetrics and Gynecology, 189*(1), 98-101.
 
@@ -304,7 +413,7 @@ Future development plans for the urogynScorer package include:
 
 * **Version 0.3.0** (Q3 2025):
   * Add support for PFIQ-7 (Pelvic Floor Impact Questionnaire)
-  * Implement PISQ-12 (Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire)
+  * Implement Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12)
   * Improve visualization tools for longitudinal patient data
 
 * **Version 0.4.0** (Q1 2026):

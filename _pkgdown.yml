@@ -50,6 +50,18 @@ reference:
   contents:
   - sandvik_severity_index
 
+reference:
+- title: "Pelvic Floor Impact Questionnaire"
+  desc: "Functions for scoring the PFIQ-7 measure"
+  contents:
+  - calculate_pfiq7
+
+reference:
+- title: "Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire"
+  desc: "PISQ-12 is a validated instrument for evaluating sexual function in women with pelvic organ prolapse and/or urinary incontinence."
+  contents:
+  - pisq12_score
+
 - title: "Data"
   desc: "Sample datasets included in the package"
   contents:

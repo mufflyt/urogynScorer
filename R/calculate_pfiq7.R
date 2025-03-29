@@ -1,3 +1,5 @@
+utils::globalVariables(c(".", "uiq7_score", "craiq7_score", "popiq7_score"))
+
 #' Calculate PFIQ-7 (Pelvic Floor Impact Questionnaire) Scores
 #'
 #' @description
@@ -82,6 +84,7 @@
 #' @importFrom tibble tibble
 #'
 #' @export
+
 calculate_pfiq7 <- function(questionnaire_data, verbose = FALSE) {
   # Initialize logger configuration
   setup_pfiq7_logger(verbose)
