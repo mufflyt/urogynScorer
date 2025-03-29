@@ -5,7 +5,7 @@ Tyler Muffly, MD
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# <a href="https://mufflyt.github.io/urogynScorer/"><img src="man/figures/logo.png" align="right" height="240" alt="urogynScorer website" /></a>
+<a href="https://mufflyt.github.io/urogynScorer/"><img src="man/figures/logo.png" align="right" height="240" alt="urogynScorer website" /></a>
 
 <!-- badges: start -->
 
@@ -31,6 +31,8 @@ algorithms with comprehensive validation and error handling for:
 - **Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire
   (PISQ-12)**
 - **Overactive Bladder Questionnaire Short Form (OAB-q SF)**
+- **International Consultation on Incontinence Questionnaire-Urinary
+  Incontinence Short Form (ICIQ-UI SF)**
 - **Patient Global Impression of Improvement (PGI-I)**
 - **Sandvik Severity Index** for urinary incontinence
 
@@ -129,6 +131,39 @@ pisq_results <- calculate_pisq12(
 pisq_results
 ```
 
+### International Consultation on Incontinence Questionnaire-Urinary Incontinence Short Form (ICIQ-UI SF)
+
+The ICIQ-UI SF measures urinary incontinence symptoms and their impact
+on quality of life:
+
+``` r
+# Create sample data
+iciq_data <- data.frame(
+  patient_id = c("P001", "P002", "P003"),
+  iciq_1 = c(2, 3, 1),     # Frequency (0-5)
+  iciq_2 = c(4, 2, 0),     # Volume (0-6)
+  iciq_3 = c(6, 8, 3),     # Impact (0-10)
+  iciq_4_1 = c(1, 0, 0),   # Situation: leaks before reaching toilet
+  iciq_4_2 = c(0, 1, 0),   # Situation: leaks when coughing/sneezing
+  iciq_4_3 = c(0, 0, 1),   # Situation: leaks when asleep
+  iciq_4_4 = c(0, 1, 0),   # Situation: leaks with physical activity
+  iciq_4_5 = c(1, 0, 0),   # Situation: leaks when finished urinating
+  iciq_4_6 = c(0, 0, 0),   # Situation: leaks for no obvious reason
+  iciq_4_7 = c(0, 0, 0)    # Situation: leaks all the time
+)
+
+# Score ICIQ-UI SF
+iciq_results <- calculate_iciq_ui_sf(
+  questionnaire_data = iciq_data,
+  id_column = "patient_id",
+  missing_threshold = 0.0,  # No missing values allowed by default
+  verbose = TRUE            # Enable detailed logging
+)
+
+# View results
+iciq_results
+```
+
 ### Overactive Bladder Questionnaire Short Form (OAB-q SF)
 
 The OAB-q SF evaluates symptom bother and health-related quality of life
@@ -218,6 +253,238 @@ sandvik_results <- sandvik_severity_index(
 sandvik_results
 ```
 
+## Complete Questionnaire Items
+
+### Pelvic Floor Distress Inventory (PFDI-20) Items
+
+The PFDI-20 consists of 20 questions across three subscales:
+
+#### POPDI-6 (Questions 1-6)
+
+1.  Do you usually experience pressure in the lower abdomen?
+2.  Do you usually experience heaviness or dullness in the pelvic area?
+3.  Do you usually have a bulge or something falling out that you can
+    see or feel in the vaginal area?
+4.  Do you usually have to push on the vagina or around the rectum to
+    have or complete a bowel movement?
+5.  Do you usually experience a feeling of incomplete bladder emptying?
+6.  Do you ever have to push up on a bulge in the vaginal area with your
+    fingers to start or complete urination?
+
+#### CRADI-8 (Questions 7-14)
+
+7.  Do you feel you need to strain too hard to have a bowel movement?
+8.  Do you feel you have not completely emptied your bowels at the end
+    of a bowel movement?
+9.  Do you usually lose stool beyond your control if your stool is well
+    formed?
+10. Do you usually lose stool beyond your control if your stool is loose
+    or liquid?
+11. Do you usually lose gas from the rectum beyond your control?
+12. Do you usually have pain when you pass your stool?
+13. Do you experience a strong sense of urgency and have to rush to the
+    bathroom to have a bowel movement?
+14. Does a part of your bowel ever pass through the rectum and bulge
+    outside during or after a bowel movement?
+
+#### UDI-6 (Questions 15-20)
+
+15. Do you usually experience frequent urination?
+16. Do you usually experience urine leakage associated with a feeling of
+    urgency; that is, a strong sensation of needing to go to the
+    bathroom?
+17. Do you usually experience urine leakage related to coughing,
+    sneezing, or laughing?
+18. Do you usually experience small amounts of urine leakage (drops)?
+19. Do you usually experience difficulty emptying your bladder?
+20. Do you usually experience pain or discomfort in the lower abdomen or
+    genital region?
+
+Each item is scored on a scale of 0-4: - 0: Not at all - 1: Somewhat -
+2: Moderately - 3: Quite a bit - 4: Extremely
+
+### Pelvic Floor Impact Questionnaire (PFIQ-7) Items
+
+The PFIQ-7 asks how bladder, bowel, or vaginal symptoms affect
+activities, relationships, and feelings across three scales:
+
+#### Urinary Impact Questionnaire (UIQ-7)
+
+1.  Ability to do household chores (cooking, housecleaning, laundry)?
+2.  Ability to do physical activities such as walking, swimming, or
+    other exercise?
+3.  Entertainment activities (going to a movie, concert, etc.)?
+4.  Ability to travel by car or bus for a distance greater than 30
+    minutes away from home?
+5.  Participating in social activities outside your home?
+6.  Emotional health (nervousness, depression, etc.)?
+7.  Feeling frustrated?
+
+#### Colorectal-Anal Impact Questionnaire (CRAIQ-7)
+
+1.  Ability to do household chores (cooking, housecleaning, laundry)?
+2.  Ability to do physical activities such as walking, swimming, or
+    other exercise?
+3.  Entertainment activities (going to a movie, concert, etc.)?
+4.  Ability to travel by car or bus for a distance greater than 30
+    minutes away from home?
+5.  Participating in social activities outside your home?
+6.  Emotional health (nervousness, depression, etc.)?
+7.  Feeling frustrated?
+
+#### Pelvic Organ Prolapse Impact Questionnaire (POPIQ-7)
+
+1.  Ability to do household chores (cooking, housecleaning, laundry)?
+2.  Ability to do physical activities such as walking, swimming, or
+    other exercise?
+3.  Entertainment activities (going to a movie, concert, etc.)?
+4.  Ability to travel by car or bus for a distance greater than 30
+    minutes away from home?
+5.  Participating in social activities outside your home?
+6.  Emotional health (nervousness, depression, etc.)?
+7.  Feeling frustrated?
+
+Each item is scored on a scale of 0-3: - 0: Not at all - 1: Somewhat -
+2: Moderately - 3: Quite a bit
+
+### Pelvic Organ Prolapse/Urinary Incontinence Sexual Questionnaire (PISQ-12) Items
+
+The PISQ-12 assesses sexual function in women with pelvic floor
+disorders:
+
+1.  How frequently do you feel sexual desire? This feeling may include
+    wanting to have sex, planning to have sex, feeling frustrated due to
+    lack of sex, etc.
+2.  Do you climax (have an orgasm) when having sexual intercourse with
+    your partner?
+3.  Do you feel sexually excited (turned on) when having sexual activity
+    with your partner?
+4.  How satisfied are you with the variety of sexual activities in your
+    current sex life?
+5.  Do you feel pain during sexual intercourse?
+6.  Are you incontinent of urine (leak urine) with sexual activity?
+7.  Does fear of incontinence (either stool or urine) restrict your
+    sexual activity?
+8.  Do you avoid sexual intercourse because of bulging in the vagina
+    (either the bladder, rectum, or vagina falling out)?
+9.  When you have sex with your partner, do you have negative emotional
+    reactions such as fear, disgust, shame or guilt?
+10. Does your partner have a problem with erections that affects your
+    sexual activity?
+11. Does your partner have a problem with premature ejaculation that
+    affects your sexual activity?
+12. Compared to orgasms you have had in the past, how intense are the
+    orgasms you have had in the past six months?
+
+Each item is scored on a scale of 0-4: - 0: Always - 1: Usually - 2:
+Sometimes - 3: Seldom - 4: Never
+
+For questions 1-4, the scoring is reversed (0=4, 1=3, etc.) since they
+are positively phrased.
+
+### Overactive Bladder Questionnaire Short Form (OAB-q SF) Items
+
+The OAB-q SF has two sections: Symptom Bother (questions 1-6) and
+Health-Related Quality of Life (questions 7-19).
+
+#### Symptom Bother (Questions 1-6)
+
+During the past 4 weeks, how bothered were you by: 1. An uncomfortable
+urge to urinate? 2. A sudden urge to urinate with little or no warning?
+3. Accidental loss of small amounts of urine? 4. Nighttime urination? 5.
+Waking up at night because you had to urinate? 6. An uncontrollable urge
+to urinate?
+
+#### Health-Related Quality of Life (Questions 7-19)
+
+During the past 4 weeks, how often have your bladder symptoms: 7. Caused
+you to plan escape routes to restrooms in public places? 8. Made you
+feel like there is something wrong with you? 9. Made you feel depressed?
+10. Made you feel frustrated? 11. Made you feel worried about bothering
+others because of your frequent trips to the bathroom? 12. Made you feel
+worried about being far away from a restroom? 13. Affected your
+relationship with family and friends? 14. Caused you to stay home more
+than you would prefer? 15. Caused you to have problems with a good
+night’s sleep? 16. Caused you to have problems with shopping, working
+outside the home, or traveling? 17. Caused you embarrassment? 18. Caused
+you to locate the nearest restroom as soon as you arrive at a place
+you’ve never been? 19. Caused you to avoid activities away from
+restrooms (i.e., walks, running, hiking)?
+
+Each item is scored on a scale of 1-6: - 1: Not at all - 2: A little
+bit - 3: Somewhat - 4: Quite a bit - 5: A great deal - 6: A very great
+deal
+
+### International Consultation on Incontinence Questionnaire-Urinary Incontinence Short Form (ICIQ-UI SF) Items
+
+The ICIQ-UI SF consists of 4 items:
+
+1.  How often do you leak urine? (0-5)
+
+    - 0: Never
+    - 1: About once a week or less often
+    - 2: Two or three times a week
+    - 3: About once a day
+    - 4: Several times a day
+    - 5: All the time
+
+2.  How much urine do you usually leak (whether you wear protection or
+    not)? (0-6)
+
+    - 0: None
+    - 2: A small amount
+    - 4: A moderate amount
+    - 6: A large amount
+
+3.  Overall, how much does leaking urine interfere with your everyday
+    life? (0-10)
+
+    - 0: Not at all
+    - 10: A great deal
+
+    (Score is marked on a visual analog scale from 0-10)
+
+4.  When does urine leak? (check all that apply) - Not scored,
+    diagnostic only
+
+    - When you cough or sneeze
+    - When you are physically active/exercising
+    - Before you can get to the toilet
+    - When you are asleep
+    - When you have finished urinating and are dressed
+    - For no obvious reason
+    - All the time
+
+### Patient Global Impression of Improvement (PGI-I) Item
+
+The PGI-I consists of a single question:
+
+“Compared to how you were before your treatment, how would you describe
+your condition now?”
+
+- 1: Very much better
+- 2: Much better
+- 3: A little better
+- 4: No change
+- 5: A little worse
+- 6: Much worse
+- 7: Very much worse
+
+### Sandvik Severity Index Items
+
+The Sandvik Severity Index consists of two questions:
+
+1.  How often do you experience urine leakage? (Frequency)
+    - 0: Never
+    - 1: Less than once a month
+    - 2: A few times a month
+    - 3: A few times a week
+    - 4: Every day and/or night
+2.  How much urine do you lose each time? (Amount)
+    - 1: Drops
+    - 2: Small amounts
+    - 3: Large amounts
+
 ## How Questionnaires Are Scored
 
 ### PFDI-20 Scoring
@@ -244,6 +511,23 @@ Each question uses a 0-4 scale:
 ≥50% of items are answered) 2. Multiply the mean by 25 to get a 0-100
 scale 3. Sum the three subscale scores to get the PFDI-20 total (0-300
 scale)
+
+### ICIQ-UI SF Scoring
+
+The ICIQ-UI SF consists of 4 items:
+
+| Item  | Description                    | Score Range             |
+|-------|--------------------------------|-------------------------|
+| **1** | Frequency of urinary leakage   | 0-5                     |
+| **2** | Amount of leakage              | 0-6                     |
+| **3** | Impact on quality of life      | 0-10                    |
+| **4** | Situations when leakage occurs | Not scored (diagnostic) |
+
+**Scoring process:** 1. Sum items 1-3 to get the total score (range
+0-21) 2. Higher scores indicate greater severity: - 1-5: Mild urinary
+incontinence - 6-12: Moderate urinary incontinence - 13-21: Severe
+urinary incontinence 3. Item 4 (situations) provides diagnostic
+information about the type of incontinence
 
 ### PFIQ-7 Scoring
 
@@ -366,6 +650,24 @@ default,
 The resulting PFDI-20 total score ranges from 0 to 300, with higher
 scores indicating greater distress.
 
+### ICIQ-UI SF Scoring Algorithm
+
+The ICIQ-UI SF consists of 3 scored items plus a diagnostic item:
+
+1.  The total score is the sum of items 1-3:
+
+![\text{ICIQ-UI SF Score} = \text{Frequency Score} + \text{Volume Score} + \text{Impact Score}](https://latex.codecogs.com/png.latex?%5Ctext%7BICIQ-UI%20SF%20Score%7D%20%3D%20%5Ctext%7BFrequency%20Score%7D%20%2B%20%5Ctext%7BVolume%20Score%7D%20%2B%20%5Ctext%7BImpact%20Score%7D "\text{ICIQ-UI SF Score} = \text{Frequency Score} + \text{Volume Score} + \text{Impact Score}")
+
+where: - Frequency Score ranges from 0-5 - Volume Score ranges from
+0-6 - Impact Score ranges from 0-10
+
+The resulting ICIQ-UI SF score ranges from 0-21, with severity
+categories: - 1-5: Mild urinary incontinence - 6-12: Moderate urinary
+incontinence - 13-21: Severe urinary incontinence
+
+Missing data is handled according to the missing threshold parameter,
+with imputation based on the mean of non-missing items when permissible.
+
 ### PFIQ-7 Scoring
 
 For each of the three scales (UIQ-7, CRAIQ-7, POPIQ-7), with 7 questions
@@ -388,9 +690,11 @@ each scored 0-3:
 The PISQ-12 has 12 questions, with questions 1-4 reverse-coded:
 
 1.  After reverse-coding questions 1-4, sum all responses:
+
     ![\text{PISQ-12 Raw} = \sum\_{i=1}^{12} q_i](https://latex.codecogs.com/png.latex?%5Ctext%7BPISQ-12%20Raw%7D%20%3D%20%5Csum_%7Bi%3D1%7D%5E%7B12%7D%20q_i "\text{PISQ-12 Raw} = \sum_{i=1}^{12} q_i")
 
 2.  Scale to a 0-100 range:
+
     ![\text{PISQ-12 Score} = \frac{\text{PISQ-12 Raw}}{48} \times 100](https://latex.codecogs.com/png.latex?%5Ctext%7BPISQ-12%20Score%7D%20%3D%20%5Cfrac%7B%5Ctext%7BPISQ-12%20Raw%7D%7D%7B48%7D%20%5Ctimes%20100 "\text{PISQ-12 Score} = \frac{\text{PISQ-12 Raw}}{48} \times 100")
 
 Higher scores indicate better sexual function.
@@ -417,7 +721,7 @@ where
 is the mean of the 13 HRQL items.
 
 For the Symptom scale, higher scores indicate greater symptom bother.
-For the HRQL scale, higher scores indicate better quality of life.
+For the HRQL scale, higher scores indicate better quality of life
 
 ### PGI-I Scoring
 
@@ -486,6 +790,9 @@ vignette("Scoring_the_Pelvic_Organ_Prolapse_Urinary_Incontinence_Sexual_Question
 
 # View OAB-q SF vignette
 vignette("Scoring_the_Overactive_Bladder_Questionnaire_Short_Form", package = "urogynScorer")
+
+# View ICIQ-UI SF vignette
+vignette("International_Consultation_on_Incontinence_Questionnaire", package = "urogynScorer")
 ```
 
 ## Citation
@@ -511,6 +818,11 @@ If you use urogynScorer in your research, please cite:
   bladder symptom and health-related quality of life short-form:
   validation of the OAB-q SF. *Neurourology and Urodynamics, 34*(3),
   255-263.
+
+- **Avery K, Donovan J, Peters TJ, Shaw C, Gotoh M, Abrams P** (2004).
+  ICIQ: a brief and robust measure for evaluating the symptoms and
+  impact of urinary incontinence. *Neurourology and Urodynamics, 23*(4),
+  322-330.
 
 - **Yalcin I, Bump RC** (2003). Validation of two global impression
   questionnaires for incontinence. *American Journal of Obstetrics and
@@ -557,12 +869,13 @@ Future development plans for the urogynScorer package include:
   - Implement Pelvic Organ Prolapse/Urinary Incontinence Sexual
     Questionnaire (PISQ-12)
   - Implement Overactive Bladder Questionnaire Short Form (OAB-q SF)
+  - Implement International Consultation on Incontinence
+    Questionnaire-Urinary Incontinence Short Form (ICIQ-UI SF)
   - Improve visualization tools for longitudinal patient data
 - **Version 0.4.0** (Q1 2026):
-  - Implement ICIQ-UI SF (International Consultation on Incontinence
-    Questionnaire-Urinary Incontinence Short Form)
   - Add support for EPAQ (Electronic Personal Assessment Questionnaire)
   - Create interactive Shiny dashboard for clinical use
+  - Add support for longitudinal data analysis
 - **Version 1.0.0** (Q3 2026):
   - Complete implementation of all major urogynecology PROMs
   - Full internationalization support

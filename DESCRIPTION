@@ -20,6 +20,7 @@ Imports:
     magrittr (>= 2.0.0),
     purrr,
     rlang (>= 0.4.0),
+    stringr,
     tibble (>= 3.0.0),
     tidyr,
     utils
