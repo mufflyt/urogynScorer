@@ -5,9 +5,7 @@ Tyler Muffly, MD
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# urogynScorer <a href="https://mufflyt.github.io/urogynScorer/"><img src="man/figures/logo.png" align="right" height="240" alt="urogynScorer website" /></a>
-
-# urogynScorer: Standardized Scoring of Urogynecology Questionnaires
+# <a href="https://mufflyt.github.io/urogynScorer/"><img src="man/figures/logo.png" align="right" height="240" alt="urogynScorer website" /></a>
 
 <!-- badges: start -->
 
@@ -21,7 +19,7 @@ coverage](https://codecov.io/gh/mufflyt/urogynScorer/graph/badge.svg)](https://a
 ## Overview
 
 **urogynScorer** provides functions for scoring validated
-patient-reported outcome measures (PROMs) used in urogynecology clinical
+patient-reported outcome measures used in urogynecology clinical
 practice and research. The package implements evidence-based scoring
 algorithms with comprehensive validation and error handling for:
 
@@ -193,6 +191,97 @@ of leakage, resulting in:
 | **Severe**      | 6-9         |
 | **Very Severe** | ≥10         |
 
+## Mathematical Basis for Scoring
+
+### PFDI-20 Scoring Algorithm
+
+The PFDI-20 consists of three subscales: POPDI-6 (questions 1-6),
+CRADI-8 (questions 7-14), and UDI-6 (questions 15-20).
+
+For a given subscale with
+![n](https://latex.codecogs.com/png.latex?n "n") questions, where
+![q_i](https://latex.codecogs.com/png.latex?q_i "q_i") represents the
+response to question ![i](https://latex.codecogs.com/png.latex?i "i")
+(ranging from 0 to 4):
+
+1.  Calculate the mean score
+    ![\bar{q}](https://latex.codecogs.com/png.latex?%5Cbar%7Bq%7D "\bar{q}")
+    for each subscale if at least
+    ![p\\](https://latex.codecogs.com/png.latex?p%5C%25 "p\%") of the
+    items are answered:
+
+![\bar{q} = \frac{\sum\_{i=1}^{n} q_i}{n\_{\text{valid}}}](https://latex.codecogs.com/png.latex?%5Cbar%7Bq%7D%20%3D%20%5Cfrac%7B%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%20q_i%7D%7Bn_%7B%5Ctext%7Bvalid%7D%7D%7D "\bar{q} = \frac{\sum_{i=1}^{n} q_i}{n_{\text{valid}}}")
+
+where
+![n\_{\text{valid}}](https://latex.codecogs.com/png.latex?n_%7B%5Ctext%7Bvalid%7D%7D "n_{\text{valid}}")
+is the number of non-missing responses, and
+![p](https://latex.codecogs.com/png.latex?p "p") is the threshold (by
+default,
+![p = 50\\](https://latex.codecogs.com/png.latex?p%20%3D%2050%5C%25 "p = 50\%")).
+
+2.  Scale the mean to get a 0-100 score for each subscale:
+
+![\text{Subscale Score} = 25 \times \bar{q}](https://latex.codecogs.com/png.latex?%5Ctext%7BSubscale%20Score%7D%20%3D%2025%20%5Ctimes%20%5Cbar%7Bq%7D "\text{Subscale Score} = 25 \times \bar{q}")
+
+3.  Calculate the PFDI-20 total score by summing the three subscale
+    scores:
+
+![\text{PFDI-20 Total} = \text{POPDI-6} + \text{CRADI-8} + \text{UDI-6}](https://latex.codecogs.com/png.latex?%5Ctext%7BPFDI-20%20Total%7D%20%3D%20%5Ctext%7BPOPDI-6%7D%20%2B%20%5Ctext%7BCRADI-8%7D%20%2B%20%5Ctext%7BUDI-6%7D "\text{PFDI-20 Total} = \text{POPDI-6} + \text{CRADI-8} + \text{UDI-6}")
+
+The resulting PFDI-20 total score ranges from 0 to 300, with higher
+scores indicating greater distress.
+
+### PGI-I Scoring
+
+The PGI-I is scored directly on a 7-point scale:
+
+![\text{PGI-I Score} = r](https://latex.codecogs.com/png.latex?%5Ctext%7BPGI-I%20Score%7D%20%3D%20r "\text{PGI-I Score} = r")
+
+where ![r](https://latex.codecogs.com/png.latex?r "r") is the patient’s
+response (1-7).
+
+In addition, a binary improvement indicator is calculated:
+
+![\text{Improved} = 
+\begin{cases} 
+1 & \text{if } r \in \\1, 2, 3\\ \\
+0 & \text{if } r \in \\4, 5, 6, 7\\
+\end{cases}](https://latex.codecogs.com/png.latex?%5Ctext%7BImproved%7D%20%3D%20%0A%5Cbegin%7Bcases%7D%20%0A1%20%26%20%5Ctext%7Bif%20%7D%20r%20%5Cin%20%5C%7B1%2C%202%2C%203%5C%7D%20%5C%5C%0A0%20%26%20%5Ctext%7Bif%20%7D%20r%20%5Cin%20%5C%7B4%2C%205%2C%206%2C%207%5C%7D%0A%5Cend%7Bcases%7D "\text{Improved} = 
+\begin{cases} 
+1 & \text{if } r \in \{1, 2, 3\} \\
+0 & \text{if } r \in \{4, 5, 6, 7\}
+\end{cases}")
+
+### Sandvik Severity Index
+
+The Sandvik Severity Index
+(![S](https://latex.codecogs.com/png.latex?S "S")) is calculated by
+multiplying the frequency
+(![f](https://latex.codecogs.com/png.latex?f "f")) and amount
+(![a](https://latex.codecogs.com/png.latex?a "a")) of leakage:
+
+![S = f \times a](https://latex.codecogs.com/png.latex?S%20%3D%20f%20%5Ctimes%20a "S = f \times a")
+
+where: - ![f](https://latex.codecogs.com/png.latex?f "f") ranges from 0
+(never) to 4 (daily) - ![a](https://latex.codecogs.com/png.latex?a "a")
+ranges from 1 (drops) to 3 (large amounts)
+
+The resulting severity index is categorized as:
+
+![\text{Severity Category} = 
+\begin{cases} 
+\text{Slight} & \text{if } S \leq 1 \\
+\text{Moderate} & \text{if } 2 \leq S \leq 5 \\
+\text{Severe} & \text{if } 6 \leq S \leq 9 \\
+\text{Very Severe} & \text{if } S \geq 10
+\end{cases}](https://latex.codecogs.com/png.latex?%5Ctext%7BSeverity%20Category%7D%20%3D%20%0A%5Cbegin%7Bcases%7D%20%0A%5Ctext%7BSlight%7D%20%26%20%5Ctext%7Bif%20%7D%20S%20%5Cleq%201%20%5C%5C%0A%5Ctext%7BModerate%7D%20%26%20%5Ctext%7Bif%20%7D%202%20%5Cleq%20S%20%5Cleq%205%20%5C%5C%0A%5Ctext%7BSevere%7D%20%26%20%5Ctext%7Bif%20%7D%206%20%5Cleq%20S%20%5Cleq%209%20%5C%5C%0A%5Ctext%7BVery%20Severe%7D%20%26%20%5Ctext%7Bif%20%7D%20S%20%5Cgeq%2010%0A%5Cend%7Bcases%7D "\text{Severity Category} = 
+\begin{cases} 
+\text{Slight} & \text{if } S \leq 1 \\
+\text{Moderate} & \text{if } 2 \leq S \leq 5 \\
+\text{Severe} & \text{if } 6 \leq S \leq 9 \\
+\text{Very Severe} & \text{if } S \geq 10
+\end{cases}")
+
 ## Documentation
 
 For detailed documentation, please see the package vignettes:
@@ -240,6 +329,53 @@ requests on GitHub.
 ## License
 
 MIT + file LICENSE
+
+## Support
+
+If you need help with using the urogynScorer package or have questions,
+there are several ways to get support:
+
+- **GitHub Issues**: For bug reports, feature requests, or general
+  questions, please [open an
+  issue](https://github.com/mufflyt/urogynScorer/issues) on the GitHub
+  repository.
+- **Email**: For direct assistance, you can email the package maintainer
+  at <tyler.muffly@dhha.org>.
+- **Office Hours**: For Denver Health clinicians, in-person
+  consultations are available on request.
+
+## Roadmap
+
+Future development plans for the urogynScorer package include:
+
+- **Version 0.3.0** (Q3 2025):
+  - Add support for PFIQ-7 (Pelvic Floor Impact Questionnaire)
+  - Implement PISQ-12 (Pelvic Organ Prolapse/Urinary Incontinence Sexual
+    Questionnaire)
+  - Improve visualization tools for longitudinal patient data
+- **Version 0.4.0** (Q1 2026):
+  - Add support for OAB-q SF (Overactive Bladder Questionnaire Short
+    Form)
+  - Implement ICIQ-UI SF (International Consultation on Incontinence
+    Questionnaire-Urinary Incontinence Short Form)
+  - Create interactive Shiny dashboard for clinical use
+- **Version 1.0.0** (Q3 2026):
+  - Complete implementation of all major urogynecology PROMs
+  - Full internationalization support
+  - Integration with REDCap and other clinical databases
+
+## Project Status
+
+[![Project Status: Active – The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+
+This package is in active development with regular updates. The current
+stable version (0.2.0) implements the core questionnaires most commonly
+used in urogynecology practice and research. Development is proceeding
+according to the roadmap above, with a focus on adding support for
+additional validated instruments and improving usability for clinicians
+and researchers.
 
 ## Code of Conduct
 

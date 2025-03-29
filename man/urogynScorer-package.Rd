@@ -5,6 +5,8 @@
 \alias{urogynScorer-package}
 \title{urogynScorer: Calculate Scores for Urogynecology Questionnaires}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 A comprehensive toolkit for scoring, validating, and analyzing patient-reported outcome measures (PROMs) used in urogynecology and pelvic floor medicine. The package implements standardized scoring algorithms for widely-used questionnaires including: the Pelvic Floor Distress Inventory (PFDI-20) with its subscales (POPDI-6, CRADI-8, UDI-6), the Patient Global Impression of Improvement (PGI-I), and the Sandvik Severity Index for urinary incontinence. Core features include: robust validation of input data, evidence-based handling of missing responses according to instrument-specific guidelines, consistent score scaling and interpretation, detailed logging for quality assurance, and comprehensive documentation with clinical context. All scoring methods follow published validation studies and clinical practice guidelines to ensure reproducibility in research and clinical applications. References: Barber et al. (2005) \doi{10.1016/j.ajog.2004.10.578}; Yalcin & Bump (2003) \doi{10.1016/S0002-9378(03)00598-1}; Sandvik et al. (2000) \doi{10.1002/nau.1041}; Jelovsek & Barber (2006) \doi{10.1016/j.ajog.2006.01.060}.
 
 A comprehensive toolkit for scoring, validating, and analyzing patient-reported

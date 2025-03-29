@@ -41,8 +41,9 @@ Imports:
     dplyr (>= 1.0.0),
     ggplot2,
     grDevices,
-    logger (>= 0.2.0),
+    logger,
     magrittr (>= 2.0.0),
+    purrr,
     rlang (>= 0.4.0),
     tibble (>= 3.0.0),
     utils
@@ -68,10 +69,3 @@ VignetteBuilder: knitr
 URL: https://github.com/mufflyt/urogynScorer
 BugReports: https://github.com/mufflyt/urogynScorer/issues
 Classification/MSC: 62P10, 62P15, 92C50
-Collate:
-    'utils-pipe.R'
-    'score_pfdi.R'
-    'score_pgii.R'
-    'sandvik_severity_index.R'
-    'pfdi_data_minimal.R'
-    'urogynScorer-package.R'
